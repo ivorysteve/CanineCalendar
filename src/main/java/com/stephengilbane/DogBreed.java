@@ -16,6 +16,17 @@ public class DogBreed
     
 	@Column(name="size")
     public String breedSize;
+	
+	public DogBreed()
+	{
+		
+	}
+	
+	public DogBreed(String n, String sz)
+	{
+		name = n;
+		breedSize = sz;
+	}
     
 	/**
 	 * Primary key.

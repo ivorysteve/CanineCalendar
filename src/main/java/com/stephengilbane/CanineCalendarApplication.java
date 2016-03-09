@@ -11,11 +11,15 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 @ComponentScan
@@ -58,6 +62,35 @@ class BreedsRestController
 	BreedsRestController(DogBreedRepository breedRepository) 
 	{
 		this.dogBreedRepository = breedRepository;
+	}
+	
+
+	/**
+	 * Create a new dog breed.
+	 * @param input
+	 * @return ResponseEntity
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
+	@RequestMapping(method = RequestMethod.POST)
+	ResponseEntity<?> add(@RequestBody DogBreed input) 
+	{
+
+		// XXX Validate input
+		DogBreed newBreed = new DogBreed(input.getName(), input.getBreedSize());
+		DogBreed result = dogBreedRepository.save(newBreed);
+
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setLocation(
+				ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(result.getId()).toUri());
+		return new ResponseEntity<>(null, httpHeaders, HttpStatus.CREATED);
 	}
 	
 	/**
