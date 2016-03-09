@@ -17,6 +17,10 @@ public class DogBreed
 	@Column(name="size")
     public String breedSize;
     
+	/**
+	 * Primary key.
+	 * @return
+	 */
 	public Long getId() 
 	{
 		return id;
@@ -26,6 +30,10 @@ public class DogBreed
 	{
 		this.id = id;
 	}
+	/**
+	 * Printable name of breed.
+	 * @return
+	 */
 	public String getName() 
 	{
 		return name;
@@ -35,6 +43,10 @@ public class DogBreed
 		this.name = name;
 	}
 	
+	/**
+	 * Relative size of this breed.
+	 * @return
+	 */
 	public String getBreedSize() 
 	{
 		return breedSize;
@@ -42,6 +54,12 @@ public class DogBreed
 	public void setBreedType(String breedSize) 
 	{
 		this.breedSize = breedSize;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return name;
 	}
 
 }

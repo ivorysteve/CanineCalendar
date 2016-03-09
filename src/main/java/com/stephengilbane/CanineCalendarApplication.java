@@ -2,25 +2,45 @@ package com.stephengilbane;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 
 @ComponentScan
 @EnableAutoConfiguration
 @SpringBootApplication
 public class CanineCalendarApplication 
 {
+	
+	private static final Logger log = LoggerFactory.getLogger(CanineCalendarApplication.class);
 
 	public static void main(String[] args) 
 	{
 		SpringApplication.run(CanineCalendarApplication.class, args);
+	}
+	
+	@Bean
+	public CommandLineRunner demo(DogBreedRepository repository) 
+	{
+		return (args) -> {
+			log.info("Starting with breeds:");
+			for (DogBreed db : repository.findAll()) 
+			{
+				log.info(db.toString());
+			}
+		};
 	}
 }
 
@@ -57,9 +77,9 @@ class BreedsRestController
 	 * @return Updated object.
 	 */
 	@RequestMapping(value = "/{breedId}", method = RequestMethod.PUT)
-	DogBreed updateBreed(@PathVariable Long breedId, DogBreed b) 
+	DogBreed updateBreed(@PathVariable Long breedId, @RequestBody DogBreed b) 
 	{
-		DogBreed oldBreed = this.dogBreedRepository.getOne(breedId);
+		DogBreed oldBreed = this.dogBreedRepository.findOne(breedId);
 		oldBreed.setName(b.getName());
 		oldBreed.setBreedType(b.getBreedSize());
 		this.dogBreedRepository.save(oldBreed);
