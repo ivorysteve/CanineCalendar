@@ -5,6 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+/**
+ * Class defining a breed of dog.
+ * @author stephengilbane
+ *
+ */
 @Entity(name="T_BREED")
 public class DogBreed 
 {
@@ -17,11 +22,19 @@ public class DogBreed
 	@Column(name="size")
     public String breedSize;
 	
+	/**
+	 *  Empty constructor.
+	 */
 	public DogBreed()
 	{
 		
 	}
 	
+	/**
+	 * Constructor.
+	 * @param n Breed name.
+	 * @param sz Breed size.
+	 */
 	public DogBreed(String n, String sz)
 	{
 		name = n;
@@ -41,6 +54,7 @@ public class DogBreed
 	{
 		this.id = id;
 	}
+	
 	/**
 	 * Printable name of breed.
 	 * @return
@@ -67,6 +81,9 @@ public class DogBreed
 		this.breedSize = breedSize;
 	}
 	
+	/**
+	 * String description.
+	 */
 	@Override
 	public String toString()
 	{

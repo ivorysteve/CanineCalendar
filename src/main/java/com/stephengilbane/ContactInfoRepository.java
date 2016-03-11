@@ -1,11 +1,11 @@
 package com.stephengilbane;
 
 /**
- * Repository for DogBreed objects.
+ * Repository for ContactInfo objects.
  */
 import org.springframework.data.jpa.repository.JpaRepository;
-public interface DogBreedRepository 
-extends JpaRepository<DogBreed, Long> 
+public interface ContactInfoRepository 
+extends JpaRepository<ContactInfo, Long> 
 {
 	// No additional methods
 
