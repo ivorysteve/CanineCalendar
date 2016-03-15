@@ -1,9 +1,10 @@
-package com.stephengilbane;
+package com.stephengilbane.repos;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.stephengilbane.ContactInfo;
 /**
  * Repository for ContactInfo objects.
  */
-import org.springframework.data.jpa.repository.JpaRepository;
 public interface ContactInfoRepository 
 extends JpaRepository<ContactInfo, Long> 
 {

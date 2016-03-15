@@ -1,9 +1,11 @@
-package com.stephengilbane;
+package com.stephengilbane.repos;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.stephengilbane.DogBreed;
 
 /**
  * Repository for DogBreed objects.
  */
-import org.springframework.data.jpa.repository.JpaRepository;
 public interface DogBreedRepository 
 extends JpaRepository<DogBreed, Long> 
 {

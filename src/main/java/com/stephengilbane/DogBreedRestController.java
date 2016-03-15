@@ -13,6 +13,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.stephengilbane.repos.DogBreedRepository;
+
+/**
+ * REST controller for dog breeds.
+ * @author stephengilbane
+ *
+ */
 @RestController
 @RequestMapping("/dogs/breeds")
 public class DogBreedRestController 
