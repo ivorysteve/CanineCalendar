@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.stephengilbane.dto.DogDTO;
-import com.stephengilbane.exception.DogOwnerNotFoundException;
 import com.stephengilbane.exception.ItemNotFoundException;
-import com.stephengilbane.repos.DogRepository;
 import com.stephengilbane.validator.DogValidator;
 
 /**
@@ -29,11 +27,9 @@ import com.stephengilbane.validator.DogValidator;
 @RequestMapping("/dogs/dogs")
 public class DogRestController 
 {
-    private final DogRepository dogRepository;
-    
     private final Validator dogValidator = new DogValidator();
     
-    private DogBusinessManager dogBusinessMgr;
+    private DogBusinessService dogBusinessService;
     
     /**
      * Constructor
@@ -41,10 +37,9 @@ public class DogRestController
      * @param bizMgr DogBusinessManager to use.
      */
     @Autowired
-    DogRestController(DogRepository dogRepo, DogBusinessManager bizMgr) 
+    DogRestController(DogBusinessService bizMgr) 
     {
-        this.dogRepository = dogRepo;
-        this.dogBusinessMgr = bizMgr;
+        dogBusinessService = bizMgr;
     }
     
 
@@ -55,13 +50,12 @@ public class DogRestController
      * 
      */
     @RequestMapping(method = RequestMethod.POST)
-    ResponseEntity<?> add(@RequestBody @NotNull DogDTO dog) 
+    ResponseEntity<?> add(@RequestBody @NotNull DogDTO dogDto) 
     {
+        dogValidator.validate(dogDto, null);
 
-        dogValidator.validate(dog, null);
-
-        Dog newDog = dogBusinessMgr.convertDogDtoToDogEntity(dog);
-        Dog result = dogRepository.save(newDog);
+        Dog newDog = dogBusinessService.convertDogDtoToDogEntity(dogDto);
+        Dog result = dogBusinessService.saveDog(newDog);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(
@@ -72,52 +66,54 @@ public class DogRestController
     /**
      * Get a Dog object.
      * @param dogId Primary Key
-     * @return
+     * @return DogDTO
      */
     @RequestMapping(value = "/{dogId}", method = RequestMethod.GET)
-    Dog readDog(@PathVariable Long dogId) 
+    DogDTO readDog(@PathVariable @NotNull Long dogId) 
     {
-        Dog d = this.dogRepository.findOne(dogId);
+        Dog d = dogBusinessService.getDog(dogId);
         if (d == null)
         {
             throw new ItemNotFoundException("dog", dogId);
         }
-        return d;
+        return new DogDTO(d);
     }
     
     /**
      * Update a Dog  object.
      * @param dogId Primary Key
+     * @param dogDto Dog with updated attributes
      * @return Updated object.
+     * @throws ItemNotFoundException If dogId is invalid.
      */
     @RequestMapping(value = "/{dogId}", method = RequestMethod.PUT)
-    DogDTO updateDog(@PathVariable Long dogId, @RequestBody Dog d) 
+    DogDTO updateDog(@PathVariable @NotNull Long dogId, @RequestBody DogDTO dogDto) 
     {
-        /**
-        DogBreed oldBreed = this.dogBreedRepository.findOne(breedId);
-        oldBreed.setName(b.getName());
-        oldBreed.setBreedType(b.getBreedSize());
-        this.dogBreedRepository.save(oldBreed);
-        return oldBreed;
-        **/
-        return new DogDTO();
+        Dog oldDog = dogBusinessService.getDog(dogId);
+        if (oldDog == null)
+        {
+            throw new ItemNotFoundException("dog", dogId);
+        }
+        dogValidator.validate(dogDto, null);
+        oldDog = dogBusinessService.updateDog(oldDog, dogDto);
         
+        return new DogDTO(oldDog);
     }
     
     /**
      * Delete a Dog object.
      * @param dogId Primary Key
-     * @return
+     * @throws ItemNotFoundException If dogId is invalid.
      */
     @RequestMapping(value = "/{dogId}", method = RequestMethod.DELETE)
     void deleteDog(@PathVariable @NotNull Long dogId) 
     {
-        Dog d = this.dogRepository.findOne(dogId);
+        Dog d = dogBusinessService.getDog(dogId);
         if (d == null)
         {
             throw new ItemNotFoundException("dog", dogId);
         }
-        this.dogRepository.delete(d);
+        dogBusinessService.deleteDog(d);
     }
 
 }

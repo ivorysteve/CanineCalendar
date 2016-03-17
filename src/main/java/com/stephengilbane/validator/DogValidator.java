@@ -19,11 +19,18 @@ implements Validator
 
     public void validate(Object target, Errors errors)
     {
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "field.required");
         DogDTO dog = (DogDTO) target;
         if (isBlank(dog.getName()))
         {
             errors.rejectValue("name", "field.required", new Object[] {}, "Dog name must be present!");
+        }
+        if (dog.getBreedId() <= 0)
+        {
+            errors.rejectValue("breedId", "field.required", new Object[] {}, "Dog Breed ID  must be valid!");            
+        }
+        if (dog.getOwnerId() <= 0)
+        {
+            errors.rejectValue("ownerId", "field.required", new Object[] {}, "Owner ID  must be valid!");            
         }
     }
 }
