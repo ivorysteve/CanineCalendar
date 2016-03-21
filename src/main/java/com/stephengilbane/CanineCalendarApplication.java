@@ -23,7 +23,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.stephengilbane.repos.DogBreedRepository;
 
-
+/**
+ * Main dog calendar application.  
+ * Called by Spring Boot.
+ * 
+ * @author stephengilbane
+ *
+ */
 @ComponentScan
 @EnableAutoConfiguration
 @SpringBootApplication
@@ -32,6 +38,10 @@ public class CanineCalendarApplication
 	
 	private static final Logger log = LoggerFactory.getLogger(CanineCalendarApplication.class);
 
+	/**
+	 * Main method called by Spring Boot.
+	 * @param args
+	 */
 	public static void main(String[] args) 
 	{
 		SpringApplication.run(CanineCalendarApplication.class, args);
@@ -44,83 +54,8 @@ public class CanineCalendarApplication
 			log.info("Starting with breeds:");
 			for (DogBreed db : repository.findAll()) 
 			{
-				log.info(db.toString());
+				log.info('\t' + db.toString());
 			}
 		};
 	}
 }
-//
-//
-//@RestController
-//@RequestMapping("/dogs/breeds")
-//class BreedsRestController 
-//{
-//	private final DogBreedRepository dogBreedRepository;
-//	
-//	/**
-//	 * Constructor
-//	 * @param breedRepository
-//	 */
-//	@Autowired
-//	BreedsRestController(DogBreedRepository breedRepository) 
-//	{
-//		this.dogBreedRepository = breedRepository;
-//	}
-//	
-//
-//	/**
-//	 * Create a new dog breed.
-//	 * @param input
-//	 * @return ResponseEntity
-//	 * 
-//	 */
-//	@RequestMapping(method = RequestMethod.POST)
-//	ResponseEntity<?> add(@RequestBody DogBreed input) 
-//	{
-//
-//		// XXX Validate input
-//		DogBreed newBreed = new DogBreed(input.getName(), input.getBreedSize());
-//		DogBreed result = dogBreedRepository.save(newBreed);
-//
-//		HttpHeaders httpHeaders = new HttpHeaders();
-//		httpHeaders.setLocation(
-//				ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(result.getId()).toUri());
-//		return new ResponseEntity<>(null, httpHeaders, HttpStatus.CREATED);
-//	}
-//	
-//	/**
-//	 * Get a Dog Breed object.
-//	 * @param breedId Primary Key
-//	 * @return
-//	 */
-//	@RequestMapping(value = "/{breedId}", method = RequestMethod.GET)
-//	DogBreed readBreed(@PathVariable Long breedId) 
-//	{
-//		return this.dogBreedRepository.findOne(breedId);
-//	}
-//	
-//	/**
-//	 * Update a Dog Breed object.
-//	 * @param breedId Primary Key
-//	 * @return Updated object.
-//	 */
-//	@RequestMapping(value = "/{breedId}", method = RequestMethod.PUT)
-//	DogBreed updateBreed(@PathVariable Long breedId, @RequestBody DogBreed b) 
-//	{
-//		DogBreed oldBreed = this.dogBreedRepository.findOne(breedId);
-//		oldBreed.setName(b.getName());
-//		oldBreed.setBreedType(b.getBreedSize());
-//		this.dogBreedRepository.save(oldBreed);
-//		return oldBreed;
-//	}
-//	
-//	/**
-//	 * Get all Dog Breeds.
-//	 * @return
-//	 */
-//	@RequestMapping(value = "/", method = RequestMethod.GET)
-//	List<DogBreed> readAllBreeds() 
-//	{
-//		return this.dogBreedRepository.findAll();
-//	}
-//}

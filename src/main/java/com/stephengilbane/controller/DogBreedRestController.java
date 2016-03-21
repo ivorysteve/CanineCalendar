@@ -1,4 +1,4 @@
-package com.stephengilbane;
+package com.stephengilbane.controller;
 
 import java.util.List;
 
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.stephengilbane.DogBreed;
 import com.stephengilbane.repos.DogBreedRepository;
 
 /**
