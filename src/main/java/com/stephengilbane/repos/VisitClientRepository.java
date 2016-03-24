@@ -1,13 +1,14 @@
 package com.stephengilbane.repos;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.stephengilbane.DogOwner;
+
+import com.stephengilbane.VisitClient;
 
 /**
  * Repository for Dog Visit Client objects.
  */
 public interface VisitClientRepository 
-extends JpaRepository<DogOwner, Long> 
+extends JpaRepository<VisitClient, Long> 
 {
     // No additional methods
 

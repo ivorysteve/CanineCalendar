@@ -1,8 +1,11 @@
-package com.stephengilbane;
+package com.stephengilbane.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.stephengilbane.Dog;
+import com.stephengilbane.DogBreed;
+import com.stephengilbane.DogOwner;
 import com.stephengilbane.dto.DogDTO;
 import com.stephengilbane.exception.ItemNotFoundException;
 import com.stephengilbane.repos.DogBreedRepository;
