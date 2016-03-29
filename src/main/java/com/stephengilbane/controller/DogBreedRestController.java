@@ -47,8 +47,8 @@ public class DogBreedRestController
 	@RequestMapping(method = RequestMethod.POST)
 	ResponseEntity<?> add(@RequestBody DogBreed input) 
 	{
-
-		// XXX Validate input
+		// XXX Validate input: unique (case-insensitive) name.
+	    
 		DogBreed newBreed = new DogBreed(input.getName(), input.getBreedSize());
 		DogBreed result = dogBreedRepository.save(newBreed);
 

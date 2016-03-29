@@ -17,7 +17,6 @@ public class VisitClientDTO
     private Long id;
 
     private String name;
-    private Long contactInfoId;
     private String visitTypeName = VisitType.UNKNOWN.name();
     private int minDogs;
     private int maxDogs;
@@ -45,7 +44,6 @@ public class VisitClientDTO
         this.maxDogs = vc.getMaxDogs();
         this.lastVisit = vc.getLastVisit();
         this.visitTypeName = vc.getVisitType().name();
-        this.contactInfoId = vc.getContactInfoId();
         this.contactInfo = ci;
     }
 
@@ -80,22 +78,6 @@ public class VisitClientDTO
     public void setName(String name)
     {
         this.name = name;
-    }
-
-    /**
-     * @return the contactInfoId, or null if not present.
-     */
-    public Long getContactInfoId()
-    {
-        return contactInfoId;
-    }
-
-    /**
-     * @param contactInfoId the contactInfoId to set.
-     */
-    public void setContactInfoId(Long contactInfoId)
-    {
-        this.contactInfoId = contactInfoId;
     }
     
     /**

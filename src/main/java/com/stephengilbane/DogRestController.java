@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 
 import com.stephengilbane.dto.DogDTO;
 import com.stephengilbane.exception.ItemNotFoundException;
@@ -25,6 +30,8 @@ import com.stephengilbane.validator.DogValidator;
  *
  */
 @RestController
+@Api(value = "/dogs/dogs"
+)
 @RequestMapping("/dogs/dogs")
 public class DogRestController 
 {
@@ -70,6 +77,14 @@ public class DogRestController
      * @return DogDTO
      */
     @RequestMapping(value = "/{dogId}", method = RequestMethod.GET)
+    @ApiOperation(value = "Find dog by ID",
+       notes = "Returns a dog given its primary key",
+       response = DogDTO.class
+    )
+    @ApiResponses(value = { 
+        @ApiResponse(code = 400, message = "Invalid Dog ID"),
+        @ApiResponse(code = 404, message = "Dog not found")
+    })
     DogDTO readDog(@PathVariable @NotNull Long dogId) 
     {
         Dog d = dogBusinessService.getDog(dogId);

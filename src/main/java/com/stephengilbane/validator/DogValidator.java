@@ -9,6 +9,11 @@ import org.springframework.validation.Validator;
 import com.stephengilbane.Dog;
 import com.stephengilbane.dto.DogDTO;
 
+/**
+ * Validate basic fields in a new or updated Dog.
+ * @author stephengilbane
+ *
+ */
 public class DogValidator 
 implements Validator
 {
@@ -26,11 +31,11 @@ implements Validator
         }
         if (dog.getBreedId() <= 0)
         {
-            errors.rejectValue("breedId", "field.required", new Object[] {}, "Dog Breed ID  must be valid!");            
+            errors.rejectValue("breedId", "field.required", new Object[] {}, "Dog Breed ID must be valid!");            
         }
         if (dog.getOwnerId() <= 0)
         {
-            errors.rejectValue("ownerId", "field.required", new Object[] {}, "Owner ID  must be valid!");            
+            errors.rejectValue("ownerId", "field.required", new Object[] {}, "Owner ID must be valid!");            
         }
     }
 }

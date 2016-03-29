@@ -1,10 +1,16 @@
 package com.stephengilbane.service;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.stephengilbane.ContactInfo;
 import com.stephengilbane.VisitClient;
+import com.stephengilbane.VisitType;
 import com.stephengilbane.dto.VisitClientDTO;
+import com.stephengilbane.exception.InvalidInputException;
 import com.stephengilbane.repos.ContactInfoRepository;
 import com.stephengilbane.repos.VisitClientRepository;
 /**
@@ -26,21 +32,37 @@ public class VisitClientBusinessService
     }
     
     /**
-     * Get a VisitClient given its ID.
+     * Get a VisitClientDTO given its ID.
      * @param clientId 
      */
-    public VisitClient getVisitClient(Long clientId)
+    public VisitClientDTO getVisitClient(Long clientId)
     {
         VisitClient client = visitClientRepo.findOne(clientId);
-        return client;
+        if (client != null)
+        {
+            Long ciId = client.getContactInfoId();
+            ContactInfo ci = contactInfoRepo.findOne(ciId);
+            VisitClientDTO dto = new VisitClientDTO(client, ci);
+            return dto;
+        }
+        return null;
     }
     
     /**
-     * Create
+     * Create a new Visit Client.
      */
-    public VisitClientDTO createVisitClient(VisitClientDTO vc)
+    //@Transactional
+    public VisitClientDTO createVisitClient(VisitClientDTO dto)
     {
-        return null;
+        ContactInfo ci = contactInfoRepo.save(dto.getContactInfo());
+        dto.setContactInfo(ci);
+        
+        VisitClient vc = convertToVisitClient(dto);
+        vc = this.visitClientRepo.save(vc);
+        
+        VisitClientDTO vcResult = new VisitClientDTO(vc, ci);
+        
+        return vcResult;
     }
     
     /**
@@ -50,5 +72,57 @@ public class VisitClientBusinessService
     public void deleteVisitClient(Long clientId)
     {
         visitClientRepo.delete(clientId);
+    }
+    
+    /**
+     * Validate client contact info.
+     * @param vc
+     * @throws InvalidInputException on any invalid field or set of fields.
+     */
+    public void validateVisitClient(VisitClientDTO vc)
+    {
+        if (isBlank(vc.getName()))
+        {
+            throw new InvalidInputException("Client name");
+        }
+        if (vc.getMinDogs() < 1)
+        {
+            throw new InvalidInputException("Minimum number of dogs", vc.getMinDogs());
+        }
+        ContactInfo ci = vc.getContactInfo();
+        if (ci == null)
+        {
+            throw new InvalidInputException("Contact Information");
+        }
+        if (isBlank(ci.getHomePhone()) && isBlank(ci.getMobilePhone()))
+        {
+            throw new InvalidInputException("Missing phone number");
+        }
+        if (isBlank(ci.getFirstName()) && isBlank(ci.getLastName()))
+        {
+            throw new InvalidInputException("Missing contact name information");
+        }
+    }
+    
+    /**
+     * Convert VisitClientDTO to VisitClient entity.
+     * @param dto
+     * @return
+     */
+    public static VisitClient convertToVisitClient(VisitClientDTO dto)
+    {
+        VisitClient vc = new VisitClient();
+        vc.setId(dto.getId());
+        vc.setName(dto.getName());
+        vc.setMinDogs(dto.getMinDogs());
+        vc.setMaxDogs(dto.getMaxDogs());
+        VisitType vt = VisitType.valueOf(dto.getVisitTypeName());
+        vc.setVisitTypeValue(vt == null ? VisitType.GP.getDbValue() : vt.getDbValue());
+        if (dto.getContactInfo() != null)
+        {
+            vc.setContactInfoId(dto.getContactInfo().getId());
+        }
+        
+        return vc;
     }
 }

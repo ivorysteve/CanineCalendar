@@ -42,32 +42,33 @@ public class VisitClientController
     @RequestMapping(value = "/{clientId}", method = RequestMethod.GET)
     public VisitClientDTO readClient(@PathVariable Long clientId) 
     {
-        VisitClient vc = clientService.getVisitClient(clientId);
+        VisitClientDTO vc = clientService.getVisitClient(clientId);
         if (vc == null)
         {
             throw new ItemNotFoundException("VisitClient", clientId);
         }
-        ContactInfo ci = null;
         
-        return new VisitClientDTO(vc, null);
+        return vc;
     }
     
     /**
      * Create a new dog visit client.
      * @param input
-     * @return ResponseEntity
+     * @return ResponseEntity containing body.
      * 
      */
     @RequestMapping(method = RequestMethod.POST)
     ResponseEntity<?> add(@RequestBody VisitClientDTO vc) 
     {
 
+        clientService.validateVisitClient(vc);
+        
         VisitClientDTO vcResult = clientService.createVisitClient(vc);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(
                 ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(vcResult.getId()).toUri());
-        return new ResponseEntity<>(null, httpHeaders, HttpStatus.CREATED);
+        return new ResponseEntity<>(vcResult, httpHeaders, HttpStatus.CREATED);
     }
 
 }

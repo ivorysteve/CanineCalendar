@@ -5,9 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
- * Contact information for any contactable entity (owner, organization, etc.).
+ * Contact information for any contactable entity (dog owner, visit organization, etc.).
  * @author stephengilbane
- *
  */
 @Entity(name="T_CONTACT_INFO")
 public class ContactInfo 
@@ -16,13 +15,21 @@ public class ContactInfo
     @GeneratedValue
     private Long id;
     
+    @Column(name = "FIRST_NAME")
 	private String firstName;
+    @Column(name = "LAST_NAME")
 	private String lastName;
+	
+	@Column(name = "STREET_1")
 	private String street1;
+	@Column(name = "STREET_2")
 	private String street2;
 	private String city;
 	private String state;
+	private String zip;
+	@Column(name = "CELL_PHONE")
 	private String mobilePhone;
+	@Column(name = "HOME_PHONE")
 	private String homePhone;
 	
 	/**
@@ -112,6 +119,22 @@ public class ContactInfo
 		this.state = state;
 	}
 	/**
+     * @return the zip
+     */
+    public String getZip()
+    {
+        return zip;
+    }
+
+    /**
+     * @param zip the zip to set
+     */
+    public void setZip(String zip)
+    {
+        this.zip = zip;
+    }
+
+    /**
 	 * @return the contact's mobile Phone number.
 	 */
 	public String getMobilePhone() {
