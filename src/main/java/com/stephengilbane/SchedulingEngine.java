@@ -6,6 +6,7 @@ import java.util.List;
 import org.jacop.constraints.Alldifferent;
 import org.jacop.constraints.Constraint;
 import org.jacop.constraints.Sum;
+import org.jacop.constraints.XeqC;
 import org.jacop.constraints.XgteqC;
 import org.jacop.constraints.XlteqC;
 import org.jacop.core.Domain;
@@ -37,15 +38,16 @@ public class SchedulingEngine
         int dogCount = dogList.size();
         ArrayList<IntVar> allVars = new ArrayList<IntVar>();
         
-        IntVar dogs[] = new IntVar[dogCount];
+        IntVar dogVars[] = new IntVar[dogCount];
         for (int j = 0; j < dogCount; j++) 
         {
             Dog d = dogList.get(j);
-            dogs[j] = new IntVar(store, d.getName(), 0, 1); 
-            allVars.add(dogs[j]);
+            dogVars[j] = new IntVar(store, d.getName(), 0, 1); 
+            allVars.add(dogVars[j]);
         }
         
-        constrainDogCount(store, vc, dogs, allVars);
+        constrainDogReady(store, dogVars, dogList);
+        constrainDogCount(store, vc, dogVars, allVars);
         
         doSearch(store, allVars);
     }
@@ -110,12 +112,12 @@ public class SchedulingEngine
     /**
      * Establish constraints for minimum and maximum number of
      * dogs on this visit.
-     * @param store JaCoP Store.
+     * @param store JaCoP Store problem instance.
      * @param vc Visit info.
-     * @param dogs List of dogs.
-     * @param allVars Constraint variables.
+     * @param dogs List of dog variables.
+     * @param allVars All constraint variables.
      */
-    private void constrainDogCount(Store store, VisitClient vc, IntVar dogs[],  ArrayList<IntVar> allVars)
+    private void constrainDogCount(Store store, VisitClient vc, IntVar[] dogs,  ArrayList<IntVar> allVars)
     {
         int minDogs = vc.getMinDogs();
         int maxDogs = vc.getMaxDogs();
@@ -127,6 +129,25 @@ public class SchedulingEngine
         
         // Add new variables to our list.
         allVars.add(sumOfDogs);
+    }
+    
+    /**
+     * Establish constraint ensuring dogs that visit are ready to visit.
+     * @param store Store problem instance.
+     * @param dogVars
+     * @param dogList
+     */
+    private void constrainDogReady(Store store, IntVar[] dogVars, List<Dog> dogList)
+    {
+        for (int i = 0; i < dogVars.length; i++)
+        {
+            Dog d = dogList.get(i);
+            if (!d.isReadyToVisit())
+            {
+                store.impose(new XeqC(dogVars[i], 0));
+            }
+        }
+        
     }
     
     /**

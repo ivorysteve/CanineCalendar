@@ -1,3 +1,10 @@
+/*
+ * Copyright 2015-2016 Stephen Gilbane.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ */
 package com.stephengilbane;
 
 import org.slf4j.Logger;
@@ -12,11 +19,11 @@ import org.springframework.context.annotation.ComponentScan;
 import com.stephengilbane.repos.DogBreedRepository;
 
 /**
- * Main dog calendar application.  
+ * Main dog calendar application.  Intended to manage schedules of dog visits,
+ * dogs, their owners, and the visit clients.
  * Called by Spring Boot.
  * 
  * @author stephengilbane
- *
  */
 @ComponentScan
 @EnableAutoConfiguration

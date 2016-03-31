@@ -30,6 +30,8 @@ public class Dog
     @JoinColumn(name = "BREED_ID")
     private DogBreed breed;
     
+    private Boolean isReadyToVisit;
+    
     private int visit_count = 0;
 
     /**
@@ -94,6 +96,22 @@ public class Dog
     public void setBreed(DogBreed breed)
     {
         this.breed = breed;
+    }
+
+    /**
+     * @return TRUE if this dog is Ready To go on a Visit; FALSE if not yet cleared.
+     */
+    public Boolean isReadyToVisit()
+    {
+        return isReadyToVisit;
+    }
+
+    /**
+     * @param isReadyToVisit TRUE if this dog is Ready To go on a Visit; FALSE if not yet cleared.
+     */
+    public void setIsReadyToVisit(Boolean isReadyToVisit)
+    {
+        this.isReadyToVisit = isReadyToVisit;
     }
 
     /**
