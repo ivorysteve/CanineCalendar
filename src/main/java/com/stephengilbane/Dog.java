@@ -30,7 +30,7 @@ public class Dog
     @JoinColumn(name = "BREED_ID")
     private DogBreed breed;
     
-    private Boolean isReadyToVisit;
+    private Boolean isReadyToVisit = Boolean.FALSE;
     
     private int visit_count = 0;
 

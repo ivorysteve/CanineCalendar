@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.stephengilbane.ContactInfo;
-import com.stephengilbane.VisitClient;
 import com.stephengilbane.dto.VisitClientDTO;
 import com.stephengilbane.exception.ItemNotFoundException;
 import com.stephengilbane.service.VisitClientBusinessService;
 
+import io.swagger.annotations.Api;
+
+@Api(value = "/dogs/clients")
 @RestController
 @RequestMapping("/dogs/clients")
 public class VisitClientController

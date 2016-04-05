@@ -26,12 +26,18 @@ import org.jacop.search.SelectChoicePoint;
  */
 public class SchedulingEngine
 {
+    public static class DogSchedule
+    {
+        List<Dog> dogs = new ArrayList<Dog>();
+        boolean hasAnswer;
+    }
+    
     /**
      * Main entry point into this class.  Given a visit and a list of dogs, calculate who will attend.
      * @param vc Client info
      * @param dogList Dogs.
      */
-    public void calculateSchedule(VisitClient vc, List<Dog> dogList)
+    public DogSchedule calculateSchedule(VisitClient vc, List<Dog> dogList)
     {
         Store store = new Store();
 
@@ -49,7 +55,8 @@ public class SchedulingEngine
         constrainDogReady(store, dogVars, dogList);
         constrainDogCount(store, vc, dogVars, allVars);
         
-        doSearch(store, allVars);
+        DogSchedule answer = doSearch(store, allVars);
+        return answer;
     }
     
     /**
@@ -57,7 +64,7 @@ public class SchedulingEngine
      * @param store JaCoP Store.
      * @param allVars List of constraint variables.
      */
-    private Search<IntVar> doSearch(Store store, List<IntVar> allVars)
+    private DogSchedule doSearch(Store store, List<IntVar> allVars)
     {
         IntVar[] allVarsArr = allVars.toArray(new IntVar[1]);
         SelectChoicePoint<IntVar> select = 
@@ -68,11 +75,19 @@ public class SchedulingEngine
         Search<IntVar> searchRes = new DepthFirstSearch<IntVar>(); 
         searchRes.getSolutionListener().searchAll(true);
         searchRes.getSolutionListener().recordSolutions(true);
+        boolean hasAnswer = store.consistency();
         boolean result = searchRes.labeling(store, select);
         
         printSolution(searchRes, result, allVarsArr);
         
-        return searchRes;
+        DogSchedule answer = new DogSchedule();
+        answer.hasAnswer = hasAnswer;
+        if (hasAnswer)
+        {
+            Domain [] res = searchRes.getSolutionListener().getSolution(1);
+        }
+        
+        return answer;
     }
     
     /**

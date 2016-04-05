@@ -9,6 +9,9 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.stephengilbane.builder.DogBuilder;
+import com.stephengilbane.builder.VisitClientBuilder;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = CanineCalendarApplication.class)
 @WebAppConfiguration
@@ -21,9 +24,8 @@ public class SchedulingEngineTest
     {
         SchedulingEngine sched = new SchedulingEngine();
 
-        VisitClient vc = new VisitClient();
-        vc.setMaxDogs(MAX_TEST_DOGS);
-        vc.setMinDogs(1);
+        VisitClient vc = new VisitClientBuilder().build();
+
         List<Dog> dogs = new ArrayList<>();
         for (int i = 0; i < 7; i++)
         {
@@ -33,5 +35,18 @@ public class SchedulingEngineTest
         }
         
         sched.calculateSchedule(vc, dogs);
+    }
+    
+    @Test
+    public void testDogNotReady()
+    {
+        SchedulingEngine sched = new SchedulingEngine();
+
+        VisitClient vc = new VisitClientBuilder().build();
+        Dog dog = new DogBuilder().setIsReadyToVisit(false).build();
+        List<Dog> dogs = new ArrayList<>();
+        dogs.add(dog);
+        sched.calculateSchedule(vc, dogs);
+        
     }
 }
