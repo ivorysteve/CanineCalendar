@@ -40,6 +40,9 @@ public class VisitClient
     
     @Column(name="LAST_VISIT_DATE")
     private Date lastVisit;
+    
+    @Column(name="IS_SUSPENDED")
+    private Boolean isSuspended = Boolean.FALSE;
 
 
     /**
@@ -174,6 +177,22 @@ public class VisitClient
     public void setLastVisit(Date lastVisit)
     {
         this.lastVisit = lastVisit;
+    }
+
+    /**
+     * @return TRUE if this client is suspended; false if active.
+     */
+    public Boolean getIsSuspended()
+    {
+        return isSuspended;
+    }
+
+    /**
+     * @param isSuspended the TRUE if this client is suspended; false if active.
+     */
+    public void setIsSuspended(Boolean isSuspended)
+    {
+        this.isSuspended = isSuspended;
     }
 
     @Override

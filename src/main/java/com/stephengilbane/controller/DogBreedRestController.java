@@ -16,13 +16,16 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.stephengilbane.DogBreed;
 import com.stephengilbane.repos.DogBreedRepository;
 
+import io.swagger.annotations.Api;
+
 /**
  * REST controller for dog breeds.
  * @author stephengilbane
  *
  */
+@Api(value = "/caninescheduler/breeds")
 @RestController
-@RequestMapping("/dogs/breeds")
+@RequestMapping("/caninescheduler/breeds")
 public class DogBreedRestController 
 {
 	private final DogBreedRepository dogBreedRepository;

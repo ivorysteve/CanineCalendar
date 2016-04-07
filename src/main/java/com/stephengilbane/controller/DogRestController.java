@@ -1,4 +1,4 @@
-package com.stephengilbane;
+package com.stephengilbane.controller;
 
 import javax.validation.constraints.NotNull;
 
@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-
+import com.stephengilbane.Dog;
 import com.stephengilbane.dto.DogDTO;
 import com.stephengilbane.exception.ItemNotFoundException;
 import com.stephengilbane.service.DogBusinessService;
@@ -30,9 +30,8 @@ import com.stephengilbane.validator.DogValidator;
  *
  */
 @RestController
-@Api(value = "/dogs/dogs"
-)
-@RequestMapping("/dogs/dogs")
+@Api(value = "/caninescheduler/dogs")
+@RequestMapping("/caninescheduler/dogs")
 public class DogRestController 
 {
     private final Validator dogValidator = new DogValidator();

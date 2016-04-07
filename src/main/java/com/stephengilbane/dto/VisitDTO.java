@@ -8,6 +8,7 @@ import java.time.ZoneId;
 import java.util.List;
 
 import com.stephengilbane.Dog;
+import com.stephengilbane.TimeUtils;
 import com.stephengilbane.Visit;
 
 /**
@@ -20,7 +21,9 @@ public class VisitDTO
     private Long id;
     private Long clientId;
     private LocalDate visitDate;
+    private String visitDateStr;
     private LocalTime visitTime;
+    private String visitTimeStr;
     private String clientNotes;
     private String report;
     private List<Dog> dogs;
@@ -34,19 +37,18 @@ public class VisitDTO
         this.id = v.getId();
         this.clientId = v.getClientId();
         this.dogs = v.getDogs();
+        
         java.util.Date vd = v.getVisitDate();
         if (vd != null)
         {
-            Instant instant = Instant.ofEpochMilli(vd.getTime());
-            LocalDateTime res = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-            this.visitDate = res.toLocalDate();
+            this.visitDate = TimeUtils.dateToLocalDate(vd);
+            this.visitDateStr = visitDate.toString();
         }
         java.util.Date vt = v.getVisitTime();
         if (vt != null)
         {
-            Instant instant = Instant.ofEpochMilli(vt.getTime());
-            LocalDateTime res = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()); 
-            this.visitTime = res.toLocalTime();
+            this.visitTime = TimeUtils.dateToLocalTime(vt);
+            this.visitTimeStr = this.visitTime.toString();
         }
         this.clientNotes = v.getClientNotes();
         this.report = v.getReport();
@@ -107,6 +109,14 @@ public class VisitDTO
     {
         return visitDate;
     }
+    
+    /**
+     * @return the visitDate as a String
+     */
+    public String getVisitDateStr()
+    {
+        return visitDateStr;
+    }
 
     /**
      * @param visitDate the visitDate to set
@@ -123,7 +133,14 @@ public class VisitDTO
     {
         return visitTime;
     }
-
+    
+    /**
+     * @return the visitTime as a String
+     */
+    public String getVisitTimeStr()
+    {
+        return visitTimeStr;
+    }
     /**
      * @param visitTime the visitTime to set
      */

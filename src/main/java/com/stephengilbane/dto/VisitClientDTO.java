@@ -21,6 +21,7 @@ public class VisitClientDTO
     private int minDogs;
     private int maxDogs;
     private Date lastVisit;
+    private Boolean isSuspended;
     private ContactInfo contactInfo;
     
     /**
@@ -44,6 +45,7 @@ public class VisitClientDTO
         this.maxDogs = vc.getMaxDogs();
         this.lastVisit = vc.getLastVisit();
         this.visitTypeName = vc.getVisitType().name();
+        this.isSuspended = vc.getIsSuspended();
         this.contactInfo = ci;
     }
 
@@ -142,6 +144,22 @@ public class VisitClientDTO
     public void setMaxDogs(int maxDogs)
     {
         this.maxDogs = maxDogs;
+    }
+
+    /**
+     * @return the isSuspended
+     */
+    public Boolean getIsSuspended()
+    {
+        return isSuspended;
+    }
+
+    /**
+     * @param isSuspended the isSuspended to set
+     */
+    public void setIsSuspended(Boolean isSuspended)
+    {
+        this.isSuspended = isSuspended;
     }
 
     /**

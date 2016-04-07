@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @Api()
 @RestController
-@RequestMapping("/dogs/contacts")
+@RequestMapping("/caninescheduler/contacts")
 public class ContactInfoRestController 
 {
 	private final ContactInfoRepository ciRepository;

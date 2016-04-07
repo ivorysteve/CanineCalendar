@@ -17,9 +17,9 @@ import com.stephengilbane.service.VisitClientBusinessService;
 
 import io.swagger.annotations.Api;
 
-@Api(value = "/dogs/clients")
+@Api(value = "/caninescheduler/clients")
 @RestController
-@RequestMapping("/dogs/clients")
+@RequestMapping("/caninescheduler/clients")
 public class VisitClientController
 {
     private final VisitClientBusinessService clientService;
