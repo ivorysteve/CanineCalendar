@@ -5,20 +5,27 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * Class defining a breed of dog.
  * @author stephengilbane
  *
  */
+@ApiModel( value = "DogBreed", description = "Dog Breed descriptor.  Used as both entity and DTO." )
 @Entity(name="T_BREED")
 public class DogBreed 
 {
+    @ApiModelProperty( value = "Dog breed primary key." ) 
     @Id
     @GeneratedValue
     private Long id;
     
+    @ApiModelProperty( value = "Dog breed printable name.  Must be unique.", required = true ) 
     public String name;
     
+    @ApiModelProperty( value = "Dog breed's size.", required = true ) 
 	@Column(name="size")
     public String breedSize;
 	

@@ -4,10 +4,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * Contact information for any contactable entity (dog owner, visit organization, etc.).
  * @author stephengilbane
  */
+@ApiModel( 
+        value = "ContactInfo", 
+        description = "Contact information for any human entity." 
+)
 @Entity(name="T_CONTACT_INFO")
 public class ContactInfo 
 {
@@ -15,17 +22,27 @@ public class ContactInfo
     @GeneratedValue
     private Long id;
     
+    @ApiModelProperty( value = "First name of contact." ) 
     @Column(name = "FIRST_NAME")
 	private String firstName;
+    
+    @ApiModelProperty( value = "Last name of contact." ) 
     @Column(name = "LAST_NAME")
 	private String lastName;
 	
+    @ApiModelProperty( value = "Street address of contact." ) 
 	@Column(name = "STREET_1")
 	private String street1;
 	@Column(name = "STREET_2")
 	private String street2;
+	
+    @ApiModelProperty( value = "City of contact address." ) 
 	private String city;
+    
+    @ApiModelProperty( value = "US state of contact address." ) 
 	private String state;
+    
+    @ApiModelProperty( value = "Zip code of contact address." ) 
 	private String zip;
 	@Column(name = "CELL_PHONE")
 	private String mobilePhone;

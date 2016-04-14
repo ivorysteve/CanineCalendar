@@ -2,9 +2,15 @@ package com.stephengilbane.dto;
 
 import java.util.Date;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import com.stephengilbane.ContactInfo;
 import com.stephengilbane.VisitClient;
 import com.stephengilbane.VisitType;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * DTO for client, including contact info.
@@ -12,16 +18,36 @@ import com.stephengilbane.VisitType;
  * @author stephengilbane
  *
  */
+@ApiModel( 
+        value = "Client or organization that dogs come to visit.", 
+        description = "Attributes for a client of dog visits, such as a nursing home or hospital." 
+)
 public class VisitClientDTO
 {
     private Long id;
-
+    
+    @ApiModelProperty( value = "Displayable name of organization.  Must not be null." )
+    @NotNull
     private String name;
+    
+    @ApiModelProperty( value = "Type of visit for this organization." )
     private String visitTypeName = VisitType.UNKNOWN.name();
+    
+    @ApiModelProperty( value = "Minimum number of dogs for a given visit.  Must be > 0." )
+    @Min(1)
     private int minDogs;
+    
+    @ApiModelProperty( value = "Maximum number of dogs for a given visit.  Must be > 0." )
+    @Min(1)
     private int maxDogs;
+    
+    @ApiModelProperty( value = "Date of last visit." )
     private Date lastVisit;
-    private Boolean isSuspended;
+    
+    @ApiModelProperty( value = "If true, this client is not able to schedule visits." )
+    private Boolean isSuspended = Boolean.FALSE;
+    
+    @ApiModelProperty( value = "Contact info for this client and its contact person." )
     private ContactInfo contactInfo;
     
     /**

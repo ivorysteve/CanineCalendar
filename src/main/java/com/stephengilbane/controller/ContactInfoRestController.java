@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiOperation;
  * for debugging and service.
  * @author stephengilbane
  */
-@Api()
+@Api(value = "/caninescheduler/contactInfo")
 @RestController
 @RequestMapping("/caninescheduler/contacts")
 public class ContactInfoRestController 
@@ -41,7 +41,10 @@ public class ContactInfoRestController
      * @return ContactInfo
      * @throws ItemNotFoundException if contact does not exist.
      */
-	@ApiOperation( value = "Get Contact Info")
+    @ApiOperation(
+            value = "Get a ContactInfo by primary ID.",
+            response = ContactInfo.class
+    )
     @RequestMapping(value = "/{contactId}", method = RequestMethod.GET)
     public ContactInfo readContactInfo(@PathVariable Long contactId) 
     {

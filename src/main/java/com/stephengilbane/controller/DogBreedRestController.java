@@ -17,6 +17,8 @@ import com.stephengilbane.DogBreed;
 import com.stephengilbane.repos.DogBreedRepository;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 /**
  * REST controller for dog breeds.
@@ -47,8 +49,15 @@ public class DogBreedRestController
 	 * @return ResponseEntity
 	 * 
 	 */
+    @ApiOperation(
+            value = "Create a new DogBreed object.",
+            notes = "Create a new DogBreed object indicated by ID. Name must be unique.",
+            response = DogBreed.class
+    )
 	@RequestMapping(method = RequestMethod.POST)
-	ResponseEntity<?> add(@RequestBody DogBreed input) 
+	ResponseEntity<?> add(
+	        @ApiParam( value = "New DogBreed attributes.", required = true )
+	        @RequestBody DogBreed input) 
 	{
 		// XXX Validate input: unique (case-insensitive) name.
 	    
@@ -66,6 +75,10 @@ public class DogBreedRestController
 	 * @param breedId Primary Key
 	 * @return
 	 */
+    @ApiOperation(
+            value = "Get a DogBreed by ID.",
+            response = DogBreed.class
+    )
 	@RequestMapping(value = "/{breedId}", method = RequestMethod.GET)
 	DogBreed readBreed(@PathVariable Long breedId) 
 	{
@@ -77,6 +90,11 @@ public class DogBreedRestController
 	 * @param breedId Primary Key
 	 * @return Updated object.
 	 */
+	@ApiOperation(
+	        value = "Update a DogBreed instance.",
+	        notes = "Update DogBreed indicated by ID. Name must be unique.",
+	        response = DogBreed.class
+	)
 	@RequestMapping(value = "/{breedId}", method = RequestMethod.PUT)
 	DogBreed updateBreed(@PathVariable Long breedId, @RequestBody DogBreed b) 
 	{
@@ -91,6 +109,11 @@ public class DogBreedRestController
 	 * Get all Dog Breeds.
 	 * @return
 	 */
+	@ApiOperation(
+	        value = "Get a list of all DogBreed recognized in the system.",
+	        response = DogBreed.class,
+	        responseContainer = "List"
+	)
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	List<DogBreed> readAllBreeds() 
 	{

@@ -1,4 +1,4 @@
-package com.stephengilbane;
+package com.stephengilbane.scheduler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,9 @@ import org.jacop.search.InputOrderSelect;
 import org.jacop.search.Search;
 import org.jacop.search.SelectChoicePoint;
 
+import com.stephengilbane.Dog;
+import com.stephengilbane.VisitClient;
+
 /**
  * Engine that determines which dogs go on a given visit.
  * Uses the Java Constraint Program Solver (JaCoP) library.
@@ -25,13 +28,7 @@ import org.jacop.search.SelectChoicePoint;
  *
  */
 public class SchedulingEngine
-{
-    public static class DogSchedule
-    {
-        List<Dog> dogs = new ArrayList<Dog>();
-        boolean hasAnswer;
-    }
-    
+{    
     /**
      * Main entry point into this class.  Given a visit and a list of dogs, calculate who will attend.
      * @param vc Client info
@@ -42,52 +39,55 @@ public class SchedulingEngine
         Store store = new Store();
 
         int dogCount = dogList.size();
-        ArrayList<IntVar> allVars = new ArrayList<IntVar>();
-        
-        IntVar dogVars[] = new IntVar[dogCount];
+        DogSchedule dogSched = new DogSchedule();
+
         for (int j = 0; j < dogCount; j++) 
         {
             Dog d = dogList.get(j);
-            dogVars[j] = new IntVar(store, d.getName(), 0, 1); 
-            allVars.add(dogVars[j]);
+            IntVar dogVar = new IntVar(store, d.getName(), 0, 1); 
+            dogSched.addDog(d, dogVar);
         }
         
-        constrainDogReady(store, dogVars, dogList);
-        constrainDogCount(store, vc, dogVars, allVars);
+        constrainDogReady(store, dogSched);
+        constrainDogCount(store, vc, dogSched);
         
-        DogSchedule answer = doSearch(store, allVars);
-        return answer;
+        boolean hasAnswer = doSearch(store, dogSched);
+        return dogSched;
     }
     
     /**
      * Solve and print solution set up in the Store.
      * @param store JaCoP Store.
-     * @param allVars List of constraint variables.
+     * @param dogSched DogSchedule containing the list of constraint variables.
+     * @return true if an answer was found, false if not.
      */
-    private DogSchedule doSearch(Store store, List<IntVar> allVars)
+    private boolean doSearch(Store store, DogSchedule dogSched)
     {
-        IntVar[] allVarsArr = allVars.toArray(new IntVar[1]);
+        IntVar[] allVars = dogSched.getAllVarArray();
         SelectChoicePoint<IntVar> select = 
                 new InputOrderSelect<IntVar> (store,
-                        allVarsArr,
+                        allVars,
                         new IndomainMin<IntVar> ()
                 );
         Search<IntVar> searchRes = new DepthFirstSearch<IntVar>(); 
+        
         searchRes.getSolutionListener().searchAll(true);
         searchRes.getSolutionListener().recordSolutions(true);
         boolean hasAnswer = store.consistency();
         boolean result = searchRes.labeling(store, select);
         
-        printSolution(searchRes, result, allVarsArr);
+        printSolution(searchRes, result, allVars);
         
-        DogSchedule answer = new DogSchedule();
-        answer.hasAnswer = hasAnswer;
+        // Record results
+        dogSched.setSearchResult(searchRes);
+        dogSched.setHasAnswer(hasAnswer);
+        
         if (hasAnswer)
         {
             Domain [] res = searchRes.getSolutionListener().getSolution(1);
         }
         
-        return answer;
+        return hasAnswer;
     }
     
     /**
@@ -132,34 +132,33 @@ public class SchedulingEngine
      * @param dogs List of dog variables.
      * @param allVars All constraint variables.
      */
-    private void constrainDogCount(Store store, VisitClient vc, IntVar[] dogs,  ArrayList<IntVar> allVars)
+    private void constrainDogCount(Store store, VisitClient vc, DogSchedule dogSched)
     {
         int minDogs = vc.getMinDogs();
         int maxDogs = vc.getMaxDogs();
 
         IntVar sumOfDogs = new IntVar(store, "a_sum", 0, 1000);
-        store.impose(new Sum(dogs, sumOfDogs));
+        store.impose(new Sum(dogSched.getDogVarArray(), sumOfDogs));
         store.impose(new XlteqC(sumOfDogs, maxDogs));
         store.impose(new XgteqC(sumOfDogs, minDogs));
         
-        // Add new variables to our list.
-        allVars.add(sumOfDogs);
+        // Add new variable to our list.
+        dogSched.addConstraintVariable(sumOfDogs);
     }
     
     /**
      * Establish constraint ensuring dogs that visit are ready to visit.
      * @param store Store problem instance.
-     * @param dogVars
-     * @param dogList
+     * @param ds DogSchedule attributes.
      */
-    private void constrainDogReady(Store store, IntVar[] dogVars, List<Dog> dogList)
+    private void constrainDogReady(Store store, DogSchedule ds)
     {
-        for (int i = 0; i < dogVars.length; i++)
+        for (int i = 0; i < ds.size(); i++)
         {
-            Dog d = dogList.get(i);
+            Dog d = ds.getDog(i);
             if (!d.isReadyToVisit())
             {
-                store.impose(new XeqC(dogVars[i], 0));
+                store.impose(new XeqC(ds.getVar(i), 0));
             }
         }
         
@@ -210,6 +209,7 @@ public class SchedulingEngine
         }
         
         sched.calculateSchedule(vc, dogs);
+        new SchedulingEngine().test();
     }
 
 }

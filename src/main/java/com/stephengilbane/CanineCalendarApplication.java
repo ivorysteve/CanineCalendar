@@ -16,6 +16,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import static springfox.documentation.builders.PathSelectors.regex;
+
 import com.stephengilbane.repos.DogBreedRepository;
 
 /**
@@ -27,6 +34,7 @@ import com.stephengilbane.repos.DogBreedRepository;
  */
 @ComponentScan
 @EnableAutoConfiguration
+@EnableSwagger2
 @SpringBootApplication
 public class CanineCalendarApplication 
 {
@@ -41,6 +49,30 @@ public class CanineCalendarApplication
 	{
 		SpringApplication.run(CanineCalendarApplication.class, args);
 	}
+	
+	/**
+	 * Swagger support for online doc.
+	 * @return
+	 */
+    @Bean
+    public Docket newsApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("CanineScheduler")
+                .apiInfo(apiInfo())
+                .select()
+                .paths(regex("/caninescheduler.*"))
+                .build();
+    }
+    
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("Canine Visit Scheduler")
+                .description("Canine Visit Scheduler Application")
+                .termsOfServiceUrl("/termsOfService.html")
+                .contact("Stephen Gilbane")
+                .version("1.0")
+                .build();
+    }
 	
 	/**
 	 * Example CommandLinRunner to run during startup.

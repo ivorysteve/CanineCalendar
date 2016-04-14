@@ -4,24 +4,40 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.stephengilbane.Dog;
+import com.stephengilbane.DogBreed;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Data Transfer form of a Dog.
  * @author stephengilbane
  *
  */
+@ApiModel( 
+        value = "Dog", 
+        description = "Attributes about a specific dog." 
+)
 public class DogDTO
 {
     private long id;
     
+    @ApiModelProperty( value = "Name of this dog.  Must not be null." ) 
     @NotNull
     private String name;
+    
+    @ApiModelProperty( value = "Number of completed visits to date." ) 
     @Min(0)
     private int visitCount;
+    
+    @ApiModelProperty( value = "Primary key of owner." ) 
     @NotNull
     private Long ownerId;
     
+    @ApiModelProperty( value = "Primary key of this dog's breed type." ) 
     private Long breedId;
+    
+    @ApiModelProperty( value = "Displayable name of this dog's breed type." ) 
     @NotNull
     private String breedName;
     
@@ -37,19 +53,21 @@ public class DogDTO
         this.name = d.getName();
         this.id = d.getId();
         this.visitCount = d.getVisitCount();
-        this.breedId = d.getBreed().getId();
+        DogBreed breed = d.getBreed();
+        this.breedName = breed.getName();
+        this.breedId = breed.getId();
         this.ownerId = d.getOwner().getId();
-        this.breedName = d.getBreed().getName();
     }
+    
     /**
-     * @return the name
+     * @return this dog's name
      */
     public String getName()
     {
         return name;
     }
     /**
-     * @param name the name to set
+     * @param name this dog's name to set
      */
     public void setName(String name)
     {

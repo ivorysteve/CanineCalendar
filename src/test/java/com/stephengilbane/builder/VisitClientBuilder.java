@@ -15,13 +15,13 @@ public class VisitClientBuilder
         myVisitClient.setMinDogs(DEFAULT_MIN_DOGS);
     }
     
-    public VisitClientBuilder setMaxVisits(int max)
+    public VisitClientBuilder maxDogs(int max)
     {
         myVisitClient.setMaxDogs(max);
         return this;
     }
     
-    public VisitClientBuilder setMinVisits(int min)
+    public VisitClientBuilder minDogs(int min)
     {
         myVisitClient.setMinDogs(min);
         return this;
