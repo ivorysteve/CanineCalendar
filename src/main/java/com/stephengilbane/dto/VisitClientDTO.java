@@ -6,8 +6,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.stephengilbane.ContactInfo;
-import com.stephengilbane.VisitClient;
 import com.stephengilbane.VisitType;
+import com.stephengilbane.entity.VisitClient;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

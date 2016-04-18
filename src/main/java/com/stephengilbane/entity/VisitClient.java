@@ -1,4 +1,4 @@
-package com.stephengilbane;
+package com.stephengilbane.entity;
 
 import java.util.Date;
 
@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+
+import com.stephengilbane.VisitType;
 
 /**
  * Class defining a client organization that requests dog visits.

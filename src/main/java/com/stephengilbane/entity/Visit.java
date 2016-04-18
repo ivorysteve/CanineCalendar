@@ -1,4 +1,4 @@
-package com.stephengilbane;
+package com.stephengilbane.entity;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+
+import com.stephengilbane.VisitState;
 
 /**
  * A visit instance.  A visit is a specific set of dogs that visit a client

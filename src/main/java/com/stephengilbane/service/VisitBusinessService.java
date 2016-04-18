@@ -3,8 +3,8 @@ package com.stephengilbane.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.stephengilbane.Visit;
 import com.stephengilbane.dto.VisitDTO;
+import com.stephengilbane.entity.Visit;
 import com.stephengilbane.repos.VisitRepository;
 
 /**

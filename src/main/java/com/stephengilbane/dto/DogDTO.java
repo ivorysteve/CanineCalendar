@@ -3,8 +3,8 @@ package com.stephengilbane.dto;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import com.stephengilbane.Dog;
 import com.stephengilbane.DogBreed;
+import com.stephengilbane.entity.Dog;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

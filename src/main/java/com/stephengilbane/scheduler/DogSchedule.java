@@ -8,7 +8,7 @@ import org.jacop.core.IntVar;
 import org.jacop.search.DepthFirstSearch;
 import org.jacop.search.Search;
 
-import com.stephengilbane.Dog;
+import com.stephengilbane.entity.Dog;
 
 /**
  * Class that keeps each associated Dog object with its constraint variable.

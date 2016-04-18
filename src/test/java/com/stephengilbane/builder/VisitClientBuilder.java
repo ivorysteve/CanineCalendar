@@ -1,6 +1,6 @@
 package com.stephengilbane.builder;
 
-import com.stephengilbane.VisitClient;
+import com.stephengilbane.entity.VisitClient;
 
 public class VisitClientBuilder
 {

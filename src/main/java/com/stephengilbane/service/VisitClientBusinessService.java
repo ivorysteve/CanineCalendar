@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.stephengilbane.ContactInfo;
-import com.stephengilbane.VisitClient;
 import com.stephengilbane.VisitType;
 import com.stephengilbane.dto.VisitClientDTO;
+import com.stephengilbane.entity.VisitClient;
 import com.stephengilbane.exception.InvalidInputException;
 import com.stephengilbane.repos.ContactInfoRepository;
 import com.stephengilbane.repos.VisitClientRepository;

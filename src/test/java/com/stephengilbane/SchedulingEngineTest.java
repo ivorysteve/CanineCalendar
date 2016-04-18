@@ -13,6 +13,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.stephengilbane.builder.DogBuilder;
 import com.stephengilbane.builder.VisitClientBuilder;
+import com.stephengilbane.entity.Dog;
+import com.stephengilbane.entity.VisitClient;
 import com.stephengilbane.scheduler.DogSchedule;
 import com.stephengilbane.scheduler.SchedulingEngine;
 

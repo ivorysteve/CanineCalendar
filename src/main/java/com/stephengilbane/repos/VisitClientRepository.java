@@ -2,7 +2,7 @@ package com.stephengilbane.repos;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.stephengilbane.VisitClient;
+import com.stephengilbane.entity.VisitClient;
 
 /**
  * Repository for Dog Visit Client objects.

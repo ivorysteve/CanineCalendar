@@ -2,8 +2,8 @@ package com.stephengilbane.builder;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.stephengilbane.Dog;
 import com.stephengilbane.DogBreed;
+import com.stephengilbane.entity.Dog;
 
 /**
  * Test Dog builder.

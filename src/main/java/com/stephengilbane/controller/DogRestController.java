@@ -18,8 +18,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-import com.stephengilbane.Dog;
 import com.stephengilbane.dto.DogDTO;
+import com.stephengilbane.entity.Dog;
 import com.stephengilbane.exception.ItemNotFoundException;
 import com.stephengilbane.service.DogBusinessService;
 import com.stephengilbane.validator.DogValidator;

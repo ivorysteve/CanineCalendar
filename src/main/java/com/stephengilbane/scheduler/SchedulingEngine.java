@@ -18,8 +18,8 @@ import org.jacop.search.InputOrderSelect;
 import org.jacop.search.Search;
 import org.jacop.search.SelectChoicePoint;
 
-import com.stephengilbane.Dog;
-import com.stephengilbane.VisitClient;
+import com.stephengilbane.entity.Dog;
+import com.stephengilbane.entity.VisitClient;
 
 /**
  * Engine that determines which dogs go on a given visit.

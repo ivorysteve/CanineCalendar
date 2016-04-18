@@ -1,0 +1,71 @@
+package com.stephengilbane.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+/**
+ * Class defining a specific dog on a specific visit.
+ * @author stephengilbane
+ *
+ */
+@Entity(name = "T_DOG_VISIT")
+public class VisitDog
+{
+    @Column(name="DOG_ID")
+    private Long dogID;
+    
+    @Column(name="VISIT_ID")
+    private Long visitID;
+    
+    @Column(name="DOG_VISIT_STATE")    
+    private int dogVisitState;
+
+    /**
+     * @return the dog primary key.
+     */
+    public Long getDogID()
+    {
+        return dogID;
+    }
+
+    /**
+     * @param dogID the dog primary key to set
+     */
+    public void setDogID(Long dogID)
+    {
+        this.dogID = dogID;
+    }
+
+    /**
+     * @return the visit primary key.
+     */
+    public Long getVisitID()
+    {
+        return visitID;
+    }
+
+    /**
+     * @param visitID the visit primary key to set
+     */
+    public void setVisitID(Long visitID)
+    {
+        this.visitID = visitID;
+    }
+
+    /**
+     * @return the dogVisitState
+     */
+    public int getDogVisitState()
+    {
+        return dogVisitState;
+    }
+
+    /**
+     * @param dogVisitState the dogVisitState to set
+     */
+    public void setDogVisitState(int dogVisitState)
+    {
+        this.dogVisitState = dogVisitState;
+    }
+
+}

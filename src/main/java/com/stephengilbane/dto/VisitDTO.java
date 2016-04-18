@@ -7,9 +7,9 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.List;
 
-import com.stephengilbane.Dog;
 import com.stephengilbane.TimeUtils;
-import com.stephengilbane.Visit;
+import com.stephengilbane.entity.Dog;
+import com.stephengilbane.entity.Visit;
 
 /**
  * Public DTO for Visits.
