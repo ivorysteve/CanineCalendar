@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.stephengilbane.DogBreed;
-import com.stephengilbane.DogOwner;
 import com.stephengilbane.dto.DogDTO;
 import com.stephengilbane.entity.Dog;
+import com.stephengilbane.entity.DogOwner;
 import com.stephengilbane.exception.ItemNotFoundException;
 import com.stephengilbane.repos.DogBreedRepository;
 import com.stephengilbane.repos.DogRepository;

@@ -7,6 +7,8 @@
  */
 package com.stephengilbane;
 
+import static springfox.documentation.builders.PathSelectors.regex;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -15,15 +17,15 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import com.stephengilbane.repos.DogBreedRepository;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-import static springfox.documentation.builders.PathSelectors.regex;
-
-import com.stephengilbane.repos.DogBreedRepository;
 
 /**
  * Main dog calendar application.  Intended to manage schedules of dog visits,
@@ -34,6 +36,7 @@ import com.stephengilbane.repos.DogBreedRepository;
  */
 @ComponentScan
 @EnableAutoConfiguration
+@EnableWebMvc
 @EnableSwagger2
 @SpringBootApplication
 public class CanineCalendarApplication 

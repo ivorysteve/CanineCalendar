@@ -7,7 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import com.stephengilbane.DogBreed;
-import com.stephengilbane.DogOwner;
 
 import javax.persistence.JoinColumn;
 

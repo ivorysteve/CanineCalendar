@@ -2,6 +2,7 @@ package com.stephengilbane.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  * Class defining a specific dog on a specific visit.
@@ -11,6 +12,7 @@ import javax.persistence.Entity;
 @Entity(name = "T_DOG_VISIT")
 public class VisitDog
 {
+    @Id // Temp; should be compound
     @Column(name="DOG_ID")
     private Long dogID;
     
