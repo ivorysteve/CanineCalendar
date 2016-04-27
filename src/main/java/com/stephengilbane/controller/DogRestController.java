@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
+import com.stephengilbane.DogBreed;
 import com.stephengilbane.dto.DogDTO;
 import com.stephengilbane.entity.Dog;
 import com.stephengilbane.exception.ItemNotFoundException;
@@ -30,7 +32,10 @@ import com.stephengilbane.validator.DogValidator;
  *
  */
 @RestController
-@Api(value = "/caninescheduler/dogs")
+@Api(
+        value = "Dogs",
+        tags = { "Dog operations" }
+)
 @RequestMapping("/caninescheduler/dogs")
 public class DogRestController 
 {
@@ -56,8 +61,16 @@ public class DogRestController
      * @return ResponseEntity
      * 
      */
+    @ApiOperation(
+            value = "Create a new Dog.",
+            notes = "Create a new Dog object.",
+            response = Dog.class
+    )
     @RequestMapping(method = RequestMethod.POST)
-    ResponseEntity<?> add(@RequestBody @NotNull DogDTO dogDto) 
+    ResponseEntity<?> createDog(
+            @RequestBody @NotNull 
+            @ApiParam( value = "New Dog object that needs to be added to the store.", required = true )
+            DogDTO dogDto) 
     {
         dogValidator.validate(dogDto, null);
 

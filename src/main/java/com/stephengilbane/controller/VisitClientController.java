@@ -17,7 +17,10 @@ import com.stephengilbane.service.VisitClientBusinessService;
 
 import io.swagger.annotations.Api;
 
-@Api(value = "/caninescheduler/clients")
+@Api(
+        value = "Client",
+        tags = { "VisitClient" }
+)
 @RestController
 @RequestMapping("/caninescheduler/clients")
 public class VisitClientController

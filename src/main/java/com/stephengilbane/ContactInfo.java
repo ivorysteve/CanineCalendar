@@ -8,16 +8,17 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * Contact information for any contactable entity (dog owner, visit organization, etc.).
+ * Contact information for any human representing an entity (a dog owner, an organization contact, etc.).
  * @author stephengilbane
  */
 @ApiModel( 
-        value = "ContactInfo", 
-        description = "Contact information for any human entity." 
+        value = "Contact Information", 
+        description = "Contact information for any human representing an entity (a dog owner, an organization contact, etc.)." 
 )
 @Entity(name="T_CONTACT_INFO")
 public class ContactInfo 
 {
+    @ApiModelProperty( value = "Primary key for this entity." ) 
     @Id
     @GeneratedValue
     private Long id;
@@ -44,10 +45,16 @@ public class ContactInfo
     
     @ApiModelProperty( value = "Zip code of contact address." ) 
 	private String zip;
+    
+    @ApiModelProperty( value = "Cell phone number of contact." ) 
 	@Column(name = "CELL_PHONE")
 	private String mobilePhone;
+    
+    @ApiModelProperty( value = "Home phone number of contact." ) 
 	@Column(name = "HOME_PHONE")
 	private String homePhone;
+    
+    @ApiModelProperty( value = "Email for contact." ) 
 	@Column(name = "EMAIL")
 	private String email;
 	

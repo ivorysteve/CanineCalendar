@@ -22,7 +22,7 @@ public class DogDTO
 {
     private long id;
     
-    @ApiModelProperty( value = "Name of this dog.  Must not be null." ) 
+    @ApiModelProperty( value = "Name of this dog.  Must not be null.", required = true, example = "Fido" ) 
     @NotNull
     private String name;
     
@@ -34,7 +34,7 @@ public class DogDTO
     @NotNull
     private Long ownerId;
     
-    @ApiModelProperty( value = "Primary key of this dog's breed type." ) 
+    @ApiModelProperty( value = "Primary key of this dog's DogBreed type." ) 
     private Long breedId;
     
     @ApiModelProperty( value = "Displayable name of this dog's breed type." ) 

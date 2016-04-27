@@ -22,6 +22,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ResponseHeader;
 
 /**
  * REST controller for dog breeds.
@@ -29,6 +30,7 @@ import io.swagger.annotations.ApiResponses;
  *
  */
 @Api(
+        value = "Dog Breed",
         tags = { "breed" },
         produces = "application/json")
 @RestController
@@ -55,15 +57,17 @@ public class DogBreedRestController
 	 * 
 	 */
     @ApiOperation(
+            nickname = "NewDogBreed",
             value = "Create a new DogBreed object.",
             notes = "Create a new DogBreed object. Name must be unique.",
-            response = DogBreed.class
+            response = DogBreed.class,
+            responseHeaders = { @ResponseHeader( ) }
     )
 	@RequestMapping(method = RequestMethod.POST)
     @ApiResponses(value = { 
             @ApiResponse(code = 400, message = "Invalid breed name supplied") } 
     )
-	ResponseEntity<DogBreed> addDogBreed(
+	public ResponseEntity<DogBreed> addDogBreed(
 	        @ApiParam( value = "New DogBreed attributes.", required = true )
 	        @RequestBody DogBreed input) 
 	{
@@ -84,12 +88,12 @@ public class DogBreedRestController
 	 * @return
 	 */
     @ApiOperation(
-            value = "Get a DogBreed by ID.",
-            response = DogBreed.class
+            value = "Get a DogBreed.",
+            notes = "Get a DogBreed by ID."
     )
 	@RequestMapping(value = "/{breedId}", method = RequestMethod.GET)
     @ResponseBody
-	DogBreed getDogBreed(@PathVariable Long breedId) 
+	public DogBreed getDogBreed(@PathVariable Long breedId) 
 	{
 		return this.dogBreedRepository.findOne(breedId);
 	}
@@ -101,12 +105,12 @@ public class DogBreedRestController
 	 */
 	@ApiOperation(
 	        value = "Update a DogBreed instance.",
-	        notes = "Update DogBreed indicated by ID. Name must be unique.",
+	        notes = "Update DogBreed indicated by ID. If name is new, name must be unique.",
 	        response = DogBreed.class
 	)
 	@RequestMapping(value = "/{breedId}", method = RequestMethod.PUT)
     @ResponseBody
-	DogBreed updateBreed(@PathVariable Long breedId, @RequestBody DogBreed b) 
+	public DogBreed updateBreed(@PathVariable Long breedId, @RequestBody DogBreed b) 
 	{
 		DogBreed oldBreed = this.dogBreedRepository.findOne(breedId);
 		oldBreed.setName(b.getName());
@@ -120,13 +124,14 @@ public class DogBreedRestController
 	 * @return
 	 */
 	@ApiOperation(
-	        value = "Get a list of all DogBreed objects recognized in the system.",
+	        value = "Get all DogBreed objects.",
+	        notes = "Get a list of all DogBreed objects recognized in the system.",
 	        response = DogBreed.class,
 	        responseContainer = "List"
 	)
 	@RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
-	List<DogBreed> getAllDogBreeds() 
+	public List<DogBreed> getAllDogBreeds() 
 	{
 		return this.dogBreedRepository.findAll();
 	}

@@ -17,10 +17,17 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.stephengilbane.repos.DogBreedRepository;
 
+import io.swagger.models.Contact;
+import io.swagger.models.Info;
+import io.swagger.models.Swagger;
+import io.swagger.models.Tag;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
@@ -58,7 +65,7 @@ public class CanineCalendarApplication
 	 * @return
 	 */
     @Bean
-    public Docket newsApi() {
+    public Docket dogSchedApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("CanineScheduler")
                 .apiInfo(apiInfo())
@@ -69,12 +76,50 @@ public class CanineCalendarApplication
     
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Canine Visit Scheduler")
+                .title("Canine Visit Scheduler API")
                 .description("Canine Visit Scheduler Application")
                 .termsOfServiceUrl("/termsOfService.html")
-                .contact("Stephen Gilbane")
                 .version("1.0")
                 .build();
+    }
+    
+    /**
+     * Swagger app info.
+     * @return
+     */
+    private Swagger swagger() 
+    {
+        Info info = new Info()
+                .title("Dog Scheduler")
+                .description("This is a demo server to coordinate dog visits.")
+                .contact(new Contact()
+                        .email("sgilbane@gmail.com"));
+        Swagger swagger = new Swagger()
+                .info(info);
+        swagger.tag(new Tag()
+               .name("dog")
+               .description("Everything about your Dog"));
+        swagger.tag(new Tag()
+                .name("visit")
+                .description("Everything about your Dog Visit"));
+        swagger.tag(new Tag()
+                .name("client")
+                .description("Everything about Client organizations."));
+        return swagger;
+    }
+    
+    /**
+     * CORS support for Swagger.
+     * @return
+     */
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/v2/api-docs").allowedOrigins("*");
+            }
+        };
     }
 	
 	/**

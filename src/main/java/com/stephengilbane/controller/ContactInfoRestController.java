@@ -18,7 +18,10 @@ import io.swagger.annotations.ApiOperation;
  * for debugging and service.
  * @author stephengilbane
  */
-@Api(value = "/caninescheduler/contactInfo")
+@Api(
+        value = "Contact Information",
+        tags = { "ContactInfo" },
+        produces = "application/json")
 @RestController
 @RequestMapping("/caninescheduler/contacts")
 public class ContactInfoRestController 
