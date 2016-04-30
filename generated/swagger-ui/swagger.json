@@ -1,0 +1,885 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Canine Visit Scheduler Application",
+    "version": "1.0",
+    "title": "Canine Visit Scheduler API",
+    "termsOfService": "/termsOfService.html",
+    "contact": {},
+    "license": {}
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Dog operations",
+      "description": "Dogs"
+    },
+    {
+      "name": "DogVisit",
+      "description": "Dog Visit events"
+    },
+    {
+      "name": "ContactInfo",
+      "description": "Contact Information"
+    },
+    {
+      "name": "VisitClient",
+      "description": "Client"
+    },
+    {
+      "name": "breed",
+      "description": "Dog Breed"
+    }
+  ],
+  "paths": {
+    "/caninescheduler/breeds": {
+      "post": {
+        "tags": [
+          "dog-breed"
+        ],
+        "summary": "Create a new DogBreed object.",
+        "description": "Create a new DogBreed object. Name must be unique.",
+        "operationId": "NewDogBreedUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "input",
+            "description": "New DogBreed attributes.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DogBreed"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DogBreed"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid breed name supplied"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/caninescheduler/breeds/": {
+      "get": {
+        "tags": [
+          "dog-breed"
+        ],
+        "summary": "Get all DogBreed objects.",
+        "description": "Get a list of all DogBreed objects recognized in the system.",
+        "operationId": "getAllDogBreedsUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/DogBreed"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/caninescheduler/breeds/{breedId}": {
+      "get": {
+        "tags": [
+          "dog-breed"
+        ],
+        "summary": "Get a DogBreed.",
+        "description": "Get a DogBreed by ID.",
+        "operationId": "getDogBreedUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "breedId",
+            "in": "path",
+            "description": "breedId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DogBreed"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "dog-breed"
+        ],
+        "summary": "Update a DogBreed instance.",
+        "description": "Update DogBreed indicated by ID. If name is new, name must be unique.",
+        "operationId": "updateBreedUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "breedId",
+            "in": "path",
+            "description": "breedId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "b",
+            "description": "b",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DogBreed"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DogBreed"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/caninescheduler/clients": {
+      "post": {
+        "tags": [
+          "client"
+        ],
+        "summary": "add",
+        "operationId": "addUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "vc",
+            "description": "vc",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Client or organization that dogs come to visit."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/caninescheduler/clients/{clientId}": {
+      "get": {
+        "tags": [
+          "client"
+        ],
+        "summary": "readClient",
+        "operationId": "readClientUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "description": "clientId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Client or organization that dogs come to visit."
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/caninescheduler/contacts/{contactId}": {
+      "get": {
+        "tags": [
+          "contact-information"
+        ],
+        "summary": "Get a ContactInfo by primary ID.",
+        "operationId": "readContactInfoUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "contactId",
+            "in": "path",
+            "description": "contactId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Contact Information"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/caninescheduler/dogs": {
+      "post": {
+        "tags": [
+          "dogs"
+        ],
+        "summary": "Create a new Dog.",
+        "description": "Create a new Dog object.",
+        "operationId": "createDogUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "dogDto",
+            "description": "New Dog object that needs to be added to the store.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Dog"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Dog"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/caninescheduler/dogs/{dogId}": {
+      "get": {
+        "tags": [
+          "dogs"
+        ],
+        "summary": "Find dog by ID",
+        "description": "Returns a dog given its primary key",
+        "operationId": "readDogUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "dogId",
+            "in": "path",
+            "description": "dogId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Dog"
+            }
+          },
+          "400": {
+            "description": "Invalid Dog ID"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Dog not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "dogs"
+        ],
+        "summary": "updateDog",
+        "operationId": "updateDogUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "dogId",
+            "in": "path",
+            "description": "dogId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "dogDto",
+            "description": "dogDto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Dog"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Dog"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "dogs"
+        ],
+        "summary": "deleteDog",
+        "operationId": "deleteDogUsingDELETE",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "dogId",
+            "in": "path",
+            "description": "dogId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/caninescheduler/visits/{visitId}": {
+      "get": {
+        "tags": [
+          "dog-visit-events"
+        ],
+        "summary": "readVisit",
+        "operationId": "readVisitUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "visitId",
+            "in": "path",
+            "description": "visitId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/VisitDTO"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "DogOwner": {
+      "properties": {
+        "contactInfo": {
+          "$ref": "#/definitions/Contact Information"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "userName": {
+          "type": "string"
+        },
+        "userPassword": {
+          "type": "string"
+        }
+      }
+    },
+    "Client or organization that dogs come to visit.": {
+      "properties": {
+        "contactInfo": {
+          "description": "Contact info for this client and its contact person.",
+          "$ref": "#/definitions/Contact Information"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "isSuspended": {
+          "type": "boolean",
+          "description": "If true, this client is not able to schedule visits."
+        },
+        "lastVisit": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date of last visit."
+        },
+        "maxDogs": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Maximum number of dogs for a given visit.  Must be > 0."
+        },
+        "minDogs": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Minimum number of dogs for a given visit.  Must be > 0."
+        },
+        "name": {
+          "type": "string",
+          "description": "Displayable name of organization.  Must not be null."
+        },
+        "visitTypeName": {
+          "type": "string",
+          "description": "Type of visit for this organization."
+        }
+      },
+      "description": "Attributes for a client of dog visits, such as a nursing home or hospital."
+    },
+    "LocalTime": {
+      "properties": {
+        "hour": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "minute": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "nano": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "second": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "Era": {
+      "properties": {
+        "value": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "Contact Information": {
+      "properties": {
+        "city": {
+          "type": "string",
+          "description": "City of contact address."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email for contact."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First name of contact."
+        },
+        "homePhone": {
+          "type": "string",
+          "description": "Home phone number of contact."
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Primary key for this entity."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name of contact."
+        },
+        "mobilePhone": {
+          "type": "string",
+          "description": "Cell phone number of contact."
+        },
+        "state": {
+          "type": "string",
+          "description": "US state of contact address."
+        },
+        "street1": {
+          "type": "string",
+          "description": "Street address of contact."
+        },
+        "street2": {
+          "type": "string"
+        },
+        "zip": {
+          "type": "string",
+          "description": "Zip code of contact address."
+        }
+      },
+      "description": "Contact information for any human representing an entity (a dog owner, an organization contact, etc.)."
+    },
+    "DogBreed": {
+      "required": [
+        "breedSize",
+        "name"
+      ],
+      "properties": {
+        "breedSize": {
+          "type": "string",
+          "description": "Dog breed's size."
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Dog breed primary key."
+        },
+        "name": {
+          "type": "string",
+          "description": "Dog breed printable name.  Must be unique."
+        }
+      },
+      "description": "Dog Breed descriptor.  Used as both entity and DTO."
+    },
+    "VisitDTO": {
+      "properties": {
+        "clientId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "clientNotes": {
+          "type": "string"
+        },
+        "dogs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Dog"
+          }
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "report": {
+          "type": "string"
+        },
+        "visitDate": {
+          "$ref": "#/definitions/LocalDate"
+        },
+        "visitDateStr": {
+          "type": "string"
+        },
+        "visitTime": {
+          "$ref": "#/definitions/LocalTime"
+        },
+        "visitTimeStr": {
+          "type": "string"
+        }
+      }
+    },
+    "IsoChronology": {
+      "properties": {
+        "calendarType": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "LocalDate": {
+      "properties": {
+        "chronology": {
+          "$ref": "#/definitions/IsoChronology"
+        },
+        "dayOfMonth": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "dayOfWeek": {
+          "type": "string",
+          "enum": [
+            "MONDAY",
+            "TUESDAY",
+            "WEDNESDAY",
+            "THURSDAY",
+            "FRIDAY",
+            "SATURDAY",
+            "SUNDAY"
+          ]
+        },
+        "dayOfYear": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "era": {
+          "$ref": "#/definitions/Era"
+        },
+        "leapYear": {
+          "type": "boolean"
+        },
+        "month": {
+          "type": "string",
+          "enum": [
+            "JANUARY",
+            "FEBRUARY",
+            "MARCH",
+            "APRIL",
+            "MAY",
+            "JUNE",
+            "JULY",
+            "AUGUST",
+            "SEPTEMBER",
+            "OCTOBER",
+            "NOVEMBER",
+            "DECEMBER"
+          ]
+        },
+        "monthValue": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "year": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "Dog": {
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "breed": {
+          "$ref": "#/definitions/DogBreed"
+        },
+        "breedId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Primary key of this dog's DogBreed type."
+        },
+        "breedName": {
+          "type": "string",
+          "description": "Displayable name of this dog's breed type."
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of this dog.  Must not be null."
+        },
+        "owner": {
+          "$ref": "#/definitions/DogOwner"
+        },
+        "ownerId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Primary key of owner."
+        },
+        "readyToVisit": {
+          "type": "boolean"
+        },
+        "visitCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Number of completed visits to date."
+        }
+      },
+      "description": "Attributes about a specific dog."
+    }
+  }
+}
