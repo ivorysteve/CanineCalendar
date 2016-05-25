@@ -9,10 +9,13 @@ import javax.persistence.Id;
  * @author stephengilbane
  *
  */
-@Entity(name = "T_DOG_VISIT")
+@Entity(name = "T_VISIT_DOG")
 public class VisitDog
 {
     @Id // Temp; should be compound
+    @Column(name="ID")
+    private Long id;
+    
     @Column(name="DOG_ID")
     private Long dogID;
     
@@ -21,6 +24,22 @@ public class VisitDog
     
     @Column(name="DOG_VISIT_STATE")    
     private int dogVisitState;
+
+    /**
+     * @return the id
+     */
+    public Long getId()
+    {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
 
     /**
      * @return the dog primary key.

@@ -24,3 +24,8 @@ The application implements a RESTful API running on an Apache Tomcat server, and
 A UI component for Canine Calendar, using React.js and Flux, is in the works.
 
 ***Author***: Stephen Gilbane
+
+## TODO ##
+* Create, delete Visits
+* State changes for VisitDogs.
+* Doc on all Controllers.

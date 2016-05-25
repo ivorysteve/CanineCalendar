@@ -1,5 +1,7 @@
 package com.stephengilbane.repos;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.stephengilbane.entity.VisitDog;
@@ -10,8 +12,19 @@ import com.stephengilbane.entity.VisitDog;
 public interface VisitDogRepository 
 extends JpaRepository<VisitDog, Long> 
 {
-    // No additional methods
-    // XXX: Need to change this to reflect compound key.
+    /**
+     * Find all VisitDog entries given a Visit ID.
+     * @param visitID
+     * @return List of VisitDog relations.
+     */
+    List<VisitDog> findByVisitID(Long visitID);
 
+    /**
+     * Find a Visit-Dog relation by visit and dog ID values.
+     * @param visitID
+     * @param dogID
+     * @return VisitDog or null.
+     */
+    VisitDog findByVisitIDAndDogID(Long visitID, Long dogID);
 }
 

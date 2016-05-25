@@ -1,5 +1,13 @@
 package com.stephengilbane.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Collectors.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +25,8 @@ public class DogBusinessService
     private final DogRepository dogRepository;
     private final DogBreedRepository dogBreedRepository;
     
+    private final Logger log = Logger.getLogger(DogBusinessService.class.getName());
+    
     /**
      * Constructor.
      * @param dogRepo Dog persistence layer.
@@ -27,6 +37,24 @@ public class DogBusinessService
     {
         this.dogRepository = dogRepo;
         this.dogBreedRepository = breedRepo;
+    }
+    
+    /**
+     * Get all Dogs in system, sorted by name.
+     * @return List of DogDTO objects.
+     */
+    public List<DogDTO> getAllDogs()
+    {
+        List<DogDTO> dogList = new ArrayList<>();
+        List<Dog> dogs = dogRepository.findAll();
+        List<Dog> sortedDogs = dogs.stream()
+                .sorted((Dog d1, Dog d2) -> d1.getName().compareTo(d2.getName()))
+                .collect(Collectors.toList());
+        for (Dog d : sortedDogs)
+        {
+            dogList.add(new DogDTO(d));
+        }
+        return dogList;
     }
     
     /**
@@ -83,7 +111,7 @@ public class DogBusinessService
     {
         
         oldDog.setName(dogDto.getName());
-
+        // Other attrs?
         oldDog = this.dogRepository.save(oldDog);
         
         return oldDog;

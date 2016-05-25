@@ -1,5 +1,8 @@
 package com.stephengilbane.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,18 +16,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 
-import com.stephengilbane.DogBreed;
 import com.stephengilbane.dto.DogDTO;
 import com.stephengilbane.entity.Dog;
 import com.stephengilbane.exception.ItemNotFoundException;
 import com.stephengilbane.service.DogBusinessService;
 import com.stephengilbane.validator.DogValidator;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for dogs.
@@ -84,6 +87,26 @@ public class DogRestController
     }
     
     /**
+     * Get all Dog objects.
+     * @param dogId Primary Key
+     * @return List<DogDTO>
+     */
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @ApiOperation(value = "Find all dogs.",
+       notes = "Returns list of dogs",
+       responseContainer = "List",
+       response = DogDTO.class
+    )
+    @ApiResponses(value = { 
+    })
+    List<DogDTO> getAllDogs() 
+    {
+        List<DogDTO> dogs = dogBusinessService.getAllDogs();
+
+        return dogs;
+    }
+    
+    /**
      * Get a Dog object.
      * @param dogId Primary Key
      * @return DogDTO
@@ -97,7 +120,7 @@ public class DogRestController
         @ApiResponse(code = 400, message = "Invalid Dog ID"),
         @ApiResponse(code = 404, message = "Dog not found")
     })
-    DogDTO readDog(@PathVariable @NotNull Long dogId) 
+    DogDTO getDog(@PathVariable @NotNull Long dogId) 
     {
         Dog d = dogBusinessService.getDog(dogId);
         if (d == null)

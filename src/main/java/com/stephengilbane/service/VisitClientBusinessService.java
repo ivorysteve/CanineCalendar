@@ -2,6 +2,8 @@ package com.stephengilbane.service;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
+import java.util.logging.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,9 @@ public class VisitClientBusinessService
 {
     private final VisitClientRepository visitClientRepo;
     private final ContactInfoRepository contactInfoRepo;
+    
+    private final Logger log = Logger.getLogger(VisitClientBusinessService.class.getName());
+
     
     @Autowired
     public VisitClientBusinessService(VisitClientRepository vcRepo, ContactInfoRepository ciRepo)
