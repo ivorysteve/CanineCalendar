@@ -9,6 +9,11 @@ import com.stephengilbane.DogBreed;
 public interface DogBreedRepository 
 extends JpaRepository<DogBreed, Long> 
 {
-	// No additional methods
+    /**
+     * Find a DogBreed by name.
+     * @param name Name of Breed.
+     * @return DogBreed or null.
+     */
+    DogBreed findByName(String name);
 
 }

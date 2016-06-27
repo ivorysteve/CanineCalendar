@@ -31,6 +31,23 @@ public class TimeUtils
         }
         return locDate;
     }
+
+    /**
+     * Convert Java 8 java.time.LocalDate to a legacy java.util.Date object,
+     * using the default system timezone.
+     * @param locDate to be converted.
+     * @return Date or null if input was null.
+     */
+    public static Date localDateToDate(LocalDate locDate)
+    {
+        Date date = null;
+        if (locDate != null)
+        {
+            Instant instant = locDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+            date = Date.from(instant);
+        }
+        return date;
+    }
     
     /**
      * Convert a legacy java.util.Date object to a Java 8 java.time.LocalTime object,
@@ -50,6 +67,24 @@ public class TimeUtils
         return locTime;
     }
 
+
+    /**
+     * Convert Java 8 java.time.LocalDateTime to a legacy java.util.Date object,
+     * using the default system timezone.
+     * @param locDateTime to be converted.
+     * @return Date or null if input was null.
+     */
+    public static Date localDateTimeToDate(LocalDateTime locDateTime)
+    {
+        Date date = null;
+        if (locDateTime != null)
+        {
+            Instant instant = locDateTime.atZone(ZoneId.systemDefault()).toInstant();
+            date = Date.from(instant);
+        }
+        return date;
+    }
+    
     // Class is not instantiatable.
     private TimeUtils(){};
 }

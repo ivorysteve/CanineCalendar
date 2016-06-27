@@ -40,7 +40,7 @@ import io.swagger.annotations.ApiResponses;
         tags = { "Dog operations" }
 )
 @RequestMapping("/caninescheduler/dogs")
-public class DogRestController 
+public class DogController 
 {
     private final Validator dogValidator = new DogValidator();
     
@@ -52,7 +52,7 @@ public class DogRestController
      * @param bizMgr DogBusinessManager to use.
      */
     @Autowired
-    DogRestController(DogBusinessService bizMgr) 
+    DogController(DogBusinessService bizMgr) 
     {
         dogBusinessService = bizMgr;
     }

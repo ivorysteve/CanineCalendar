@@ -2,11 +2,12 @@ package com.stephengilbane.service;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.stephengilbane.ContactInfo;
 import com.stephengilbane.VisitType;
@@ -37,18 +38,29 @@ public class VisitClientBusinessService
     }
     
     /**
+     * @return List of all clients.
+     */
+    public List<VisitClientDTO> getAllVisitClients()
+    {
+        List<VisitClient> clients = visitClientRepo.findAll();
+        List<VisitClientDTO> rtnList = new ArrayList<>(clients.size());
+        for (VisitClient vc : clients)
+        {
+            rtnList.add(convertToVisitClientDTO(vc));
+        }
+        return rtnList;
+    }
+    
+    /**
      * Get a VisitClientDTO given its ID.
      * @param clientId 
      */
     public VisitClientDTO getVisitClient(Long clientId)
     {
-        VisitClient client = visitClientRepo.findOne(clientId);
-        if (client != null)
+        VisitClient vc = visitClientRepo.findOne(clientId);
+        if (vc != null)
         {
-            Long ciId = client.getContactInfoId();
-            ContactInfo ci = contactInfoRepo.findOne(ciId);
-            VisitClientDTO dto = new VisitClientDTO(client, ci);
-            return dto;
+            return convertToVisitClientDTO(vc);
         }
         return null;
     }
@@ -129,5 +141,18 @@ public class VisitClientBusinessService
         }
         
         return vc;
+    }
+    
+    /**
+     * Convert and populate an existing VisitClientDTO.
+     * @param vc 
+     * @return populated VisitClientDTO
+     */
+    public VisitClientDTO convertToVisitClientDTO(VisitClient vc)
+    {
+        Long ciId = vc.getContactInfoId();
+        ContactInfo ci = ciId == null ? new ContactInfo() : contactInfoRepo.findOne(ciId);
+        VisitClientDTO dto = new VisitClientDTO(vc, ci);
+        return dto;
     }
 }

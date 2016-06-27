@@ -109,7 +109,7 @@ public class CanineCalendarApplication
     }
     
     /**
-     * CORS support for Swagger.
+     * CORS support for Swagger and local origin.
      * @return
      */
     @Bean
@@ -118,6 +118,7 @@ public class CanineCalendarApplication
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/v2/api-docs").allowedOrigins("*");
+                registry.addMapping("/caninescheduler/**").allowedOrigins("*");
             }
         };
     }

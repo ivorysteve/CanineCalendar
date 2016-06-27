@@ -1,5 +1,7 @@
 package com.stephengilbane.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -35,6 +37,17 @@ public class VisitClientController
     VisitClientController(VisitClientBusinessService svc) 
     {
         this.clientService = svc;
+    }
+
+    
+    /**
+     * Get all VisitClient objects.
+     * @return List, possibly empty, of VisitClientDTOs
+     */
+    @RequestMapping(method = RequestMethod.GET)
+    public List<VisitClientDTO> getAllClients() 
+    {
+        return clientService.getAllVisitClients();
     }
     
     /**

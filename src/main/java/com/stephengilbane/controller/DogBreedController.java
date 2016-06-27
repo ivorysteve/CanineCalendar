@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.stephengilbane.DogBreed;
+import com.stephengilbane.exception.InvalidInputException;
 import com.stephengilbane.repos.DogBreedRepository;
 
 import io.swagger.annotations.Api;
@@ -35,7 +37,7 @@ import io.swagger.annotations.ResponseHeader;
         produces = "application/json")
 @RestController
 @RequestMapping("/caninescheduler/breeds")
-public class DogBreedRestController 
+public class DogBreedController 
 {
 	private final DogBreedRepository dogBreedRepository;
 	
@@ -44,7 +46,7 @@ public class DogBreedRestController
 	 * @param breedRepository
 	 */
 	@Autowired
-	DogBreedRestController(DogBreedRepository breedRepository) 
+	DogBreedController(DogBreedRepository breedRepository) 
 	{
 		this.dogBreedRepository = breedRepository;
 	}
@@ -52,9 +54,8 @@ public class DogBreedRestController
 
 	/**
 	 * Create a new dog breed.
-	 * @param input
-	 * @return ResponseEntity
-	 * 
+	 * @param breed Breed attributes.
+	 * @return ResponseEntity specifying URI for new breed.
 	 */
     @ApiOperation(
             nickname = "NewDogBreed",
@@ -69,11 +70,17 @@ public class DogBreedRestController
     )
 	public ResponseEntity<DogBreed> addDogBreed(
 	        @ApiParam( value = "New DogBreed attributes.", required = true )
-	        @RequestBody DogBreed input) 
+	        @RequestBody DogBreed breed) 
 	{
-		// XXX Validate input: unique (case-insensitive) name.
+		// Ensure name is unique.
+        String name = breed.getName();
+        DogBreed existingBreed = this.dogBreedRepository.findByName(name);
+        if (existingBreed != null)
+        {
+            throw new InvalidInputException(String.format("Breed %s already exists!", name));
+        }
 	    
-		DogBreed newBreed = new DogBreed(input.getName(), input.getBreedSize());
+		DogBreed newBreed = new DogBreed(name, breed.getBreedSize());
 		DogBreed resultBreed = dogBreedRepository.save(newBreed);
 
 		HttpHeaders httpHeaders = new HttpHeaders();

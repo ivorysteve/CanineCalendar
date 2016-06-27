@@ -1,12 +1,14 @@
 package com.stephengilbane.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.stephengilbane.TimeUtils;
 import com.stephengilbane.dto.VisitDTO;
 import com.stephengilbane.entity.Dog;
 import com.stephengilbane.entity.Visit;
@@ -54,6 +56,26 @@ public class VisitBusinessService
             return dto;
         }
         return null;
+    }
+    
+    /**
+     * Create a new Visit.
+     * @param visitDTO
+     * @return
+     */
+    public VisitDTO createVisit(VisitDTO visitDTO)
+    {
+        Visit v = new Visit();
+        v.setClientId(visitDTO.getClientId());
+        v.setClientNotes(visitDTO.getClientNotes());
+        Date d = TimeUtils.localDateToDate(visitDTO.getVisitDate());
+        v.setVisitDate(d);
+        // Date vt = TimeUtils.localDateTimeToDate(visitDTO.getVisitTime());
+        // v.setVisitTime(visitTime);
+        
+        v = visitRepo.save(v);
+        
+        return new VisitDTO(v);
     }
     
     /**
