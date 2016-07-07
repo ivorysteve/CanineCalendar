@@ -1,9 +1,11 @@
 package com.stephengilbane.controller;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.core.Context;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.stephengilbane.FileUtils;
 import com.stephengilbane.dto.DogDTO;
 import com.stephengilbane.entity.Dog;
 import com.stephengilbane.exception.ItemNotFoundException;
@@ -165,6 +168,55 @@ public class DogController
             throw new ItemNotFoundException("dog", dogId);
         }
         dogBusinessService.deleteDog(d);
+    }
+    
+    /**
+     * Get thumb image for a dog.
+     * XXX: ADD COLUMN IN T_DOG.
+     * @param dogId
+     * @return
+     */
+    @ApiOperation(
+            value = "Get a Dog's picture.",
+            notes = "Get a dog's standard picture."
+    )
+    @RequestMapping(value = "/{dogId}/image", method = RequestMethod.GET)
+    ResponseEntity<?> getDogPicture(@PathVariable @NotNull Long dogId) 
+    {
+        Dog dog = dogBusinessService.getDog(dogId);
+        if (dog == null)
+        {
+            throw new ItemNotFoundException("Dog #", dogId);
+        }
+        String imageName = dog.getThumbImageFilename();
+        if (imageName == null)
+        {
+            throw new ItemNotFoundException("Image for Dog #", dogId);
+        }
+        byte[] img = null;
+        try
+        {
+            img = dogBusinessService.getImageBytes(imageName);
+        }
+        catch (IOException ex)
+        {
+            throw new ItemNotFoundException("image", dogId);
+        }
+        String fileType = "octet/binary";
+        try {
+            fileType = FileUtils.toImageType(imageName);
+        }
+        catch (Exception ex)
+        {
+            fileType = "octet/binary";
+        }
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentLength(img.length);
+        httpHeaders.setContentDispositionFormData("inline", imageName);
+        httpHeaders.set(HttpHeaders.CONTENT_TYPE, fileType);
+
+        return new ResponseEntity<>(img, httpHeaders, HttpStatus.OK);
     }
 
 }

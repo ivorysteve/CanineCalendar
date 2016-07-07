@@ -13,7 +13,7 @@ import com.stephengilbane.entity.Dog;
 public class DogBuilder
 {
     private Dog myDog;
-    private AtomicLong myIdCount = new AtomicLong(0);
+    private static AtomicLong myIdCount = new AtomicLong(0);
     
     /**
      * Constructor.

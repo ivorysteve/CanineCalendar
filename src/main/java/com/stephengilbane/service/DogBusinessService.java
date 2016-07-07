@@ -1,17 +1,17 @@
 package com.stephengilbane.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import java.util.stream.Collectors.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.stephengilbane.DogBreed;
+import com.stephengilbane.FileUtils;
 import com.stephengilbane.dto.DogDTO;
 import com.stephengilbane.entity.Dog;
 import com.stephengilbane.entity.DogOwner;
@@ -24,6 +24,8 @@ public class DogBusinessService
 {
     private final DogRepository dogRepository;
     private final DogBreedRepository dogBreedRepository;
+    
+    public static final String DOG_IMAGES_DIR = "/resources/images/dogs";
     
     private final Logger log = Logger.getLogger(DogBusinessService.class.getName());
     
@@ -124,4 +126,20 @@ public class DogBusinessService
     {
         this.dogRepository.delete(d);
     }
+    
+    /**
+     * Get image bytes for an image file.
+     * @param fullPathName
+     * @return
+     * @throws IOException
+     */
+    public byte[] getImageBytes(String dogFileName)
+    throws IOException
+    {
+        String path = "." + DOG_IMAGES_DIR + File.separatorChar + dogFileName;
+        System.out.println("We are " + path);
+        byte [] rtnArr = FileUtils.getImageBytes(path);
+        return rtnArr;
+    }
+
 }

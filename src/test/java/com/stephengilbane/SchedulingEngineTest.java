@@ -35,7 +35,7 @@ public class SchedulingEngineTest
         List<Dog> dogs = new ArrayList<>();
         dogs.add(dog);
         DogSchedule ds = sched.calculateSchedule(vc, dogs);
-        assertThat(ds.hasAnswer(), is(true));
+        assertThat(ds.hasAnswer(), is(false));
         System.out.println(ds);
         
     }

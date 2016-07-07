@@ -25,6 +25,9 @@ public class Dog
 
     private String name;
     
+    @Column(name = "THUMB_FILE")
+    private String thumbImageName;
+    
     @ManyToOne
     @JoinColumn(name = "OWNER_ID")
     private DogOwner owner;
@@ -131,5 +134,21 @@ public class Dog
     public void setVisitCount(int visit_count)
     {
         this.visit_count = visit_count;
+    }
+    
+    /**
+     * @return the thumb image for this dog.
+     */
+    public String getThumbImageFilename()
+    {
+        return this.thumbImageName;
+    }
+
+    /**
+     * @param nm The thumb image for this dog.
+     */
+    public void setThumbImageFilename(String nm)
+    {
+        this.thumbImageName = nm;
     }
 }
